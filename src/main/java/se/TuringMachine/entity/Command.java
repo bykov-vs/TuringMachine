@@ -18,4 +18,8 @@ public class Command {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_algorithm")
     private Algorithm algorithm;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_symbol")
+    private Symbol symbol;
 }
