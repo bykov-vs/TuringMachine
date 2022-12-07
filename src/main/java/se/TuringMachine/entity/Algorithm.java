@@ -21,6 +21,7 @@ public class Algorithm {
 
     private String secondOperand;
 
+    @ManyToOne
     @JoinColumn(name = "id_alphabet")
     private Alphabet alphabet;
 

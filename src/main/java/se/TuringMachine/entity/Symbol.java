@@ -3,17 +3,13 @@ package se.TuringMachine.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Set;
-
 @Entity
 @Data
-public class Alphabet {
+public class Symbol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_alphabet")
+    @Column(name = "id_symbol")
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Symbol> symbol;
+    private Character name;
 }
