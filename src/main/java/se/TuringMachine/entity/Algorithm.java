@@ -15,12 +15,6 @@ public class Algorithm {
 
     private String name;
 
-    private int tapeLength;
-
-    private String firstOperand;
-
-    private String secondOperand;
-
     @ManyToOne
     @JoinColumn(name = "id_alphabet")
     private Alphabet alphabet;

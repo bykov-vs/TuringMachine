@@ -11,7 +11,11 @@ public class Command {
     @Column(name = "id_command")
     private Long id;
 
-    private String name;
+    private String move;
+
+    private Character newSymbol;
+
+    private int nextState;
 
     private int state;
 
