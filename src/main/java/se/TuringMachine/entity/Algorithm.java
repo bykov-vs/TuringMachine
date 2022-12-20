@@ -21,4 +21,5 @@ public class Algorithm {
 
     @Transient
     private List<Command> commands;
+
 }

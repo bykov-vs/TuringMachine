@@ -15,10 +15,17 @@ import java.util.stream.Collectors;
 public class ExecuteService {
 
     public void execute(Algorithm algorithm, Tape tape){
+
         List<Command> commands = algorithm.getCommands();
+
         List<List<Command>> states = groupCommandsByStates(commands);
+
         String line = tape.toString();
+        StringBuilder dynamicTape = new StringBuilder();
         char[] symbols = line.toCharArray();
+        for (char symbol : symbols) {
+            dynamicTape.append(symbol);
+        }
         int indexOfSymbol = 0;
         int MAX_ITERS = 1000;
         int iters = 0;
@@ -26,16 +33,30 @@ public class ExecuteService {
         Command currentCommand = null;
         LinkedHashMap<Integer, Character> track = new LinkedHashMap<>();
 
-        while (indexOfState < states.size() || iters < MAX_ITERS){
+        while (indexOfState < states.size() && iters < MAX_ITERS){
             iters++;
-            char currentSymbol = indexOfSymbol < 0 || indexOfSymbol >= symbols.length ? ' ': symbols[indexOfSymbol];
+            if (indexOfSymbol < 0){
+                indexOfSymbol++;
+                dynamicTape.insert(indexOfState, " ");
+            }
+            if (indexOfSymbol >= dynamicTape.length()){
+                dynamicTape.append(" ");
+            }
+            System.out.println("CURRENT ITER" + indexOfState);
+            char currentSymbol = dynamicTape.charAt(indexOfSymbol);
+            //char currentSymbol = indexOfSymbol < 0 || indexOfSymbol >= symbols.length ? ' ': symbols[indexOfSymbol];
             currentCommand = getCurrentCommand(states.get(indexOfState), currentSymbol);
+            System.out.println("CURRENT STATE : " + indexOfState);
+            System.out.println("CURRENT SYMBOL IS "+currentSymbol);
             if (currentCommand == null)
                 throw new InvalidStateException();
             if (currentCommand.getNextState() != -1)
                 indexOfState = currentCommand.getNextState();
             if (currentCommand.getNewSymbol() != null)
-                symbols[indexOfSymbol] = currentCommand.getNewSymbol();
+                dynamicTape.replace(indexOfSymbol,
+                        indexOfSymbol+1,
+                        String.valueOf(currentCommand.getNewSymbol()));
+                //symbols[indexOfSymbol] = currentCommand.getNewSymbol();
             switch (currentCommand.getMove()) {
                 case "Л" -> indexOfSymbol--;
                 case "П" -> indexOfSymbol++;
@@ -46,36 +67,43 @@ public class ExecuteService {
             //Добавить проверки на зацикливание программы и невозможное состояние (из которого нельзя выйти)
             //Добавить выход из цикла (состояние остановки???)
             //если indexOfSymbol отрицательный или больше длины ленты, то currentSymbol = ""?
-            //Добавить трассировку
+            //ДОБАВИТЬ ТРАССИРОВКУ (????)
         }
-        for (Map.Entry<Integer, Character> entry : track.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-        }
+        System.out.println(dynamicTape.toString());
+
     }
 
     private List<List<Command>> groupCommandsByStates(List<Command> commands){
+        System.out.println("IN GROUP COMMANDS");
         List<List<Command>> states = new ArrayList<>();
         List<Command> tempCommands = new ArrayList<>();
-        commands = commands.stream()
-                .sorted(Comparator.comparingInt(Command::getState))
-                .collect(Collectors.toList());
-
+        List<Command> sortedCommands = commands.stream()
+                .sorted(Comparator.comparingInt(Command::getState)).toList();
+        System.out.println("IN sorting secTION");
+        for (Command command : sortedCommands) {
+            System.out.println(command + "lol");
+        }
+        System.out.println("AFTER OUT");
         int indexState = 0;
-        for (Command command : commands) {
+        for (Command command : sortedCommands) {
             if (command.getState() == indexState){
                 tempCommands.add(command);
+                System.out.println("ahahahhahaha");
             }
             if (command.getState() > indexState){
                 states.add(tempCommands);
                 indexState++;
-                tempCommands.clear();
+                tempCommands = new ArrayList<>();
             }
         }
+        if (tempCommands.size() != 0)
+            states.add(tempCommands);
         return states;
     }
 
     private Command getCurrentCommand(List<Command> commands, char currentSymbol){
         for (Command command : commands) {
+            System.out.println(command);
             if (command.getSymbol().getName().equals(currentSymbol)){
                 return command;
             }

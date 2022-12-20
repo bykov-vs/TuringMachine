@@ -26,4 +26,15 @@ public class Command {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_symbol")
     private Symbol symbol;
+
+    @Override
+    public String toString() {
+        return "Command{" +
+                "id=" + id +
+                ", move='" + move + '\'' +
+                ", newSymbol=" + newSymbol +
+                ", nextState=" + nextState +
+                ", state=" + state +
+                '}';
+    }
 }
