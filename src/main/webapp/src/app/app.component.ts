@@ -1,21 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {HttpService} from "./HttpService";
-import {TapeCombobox} from "./tapecombobox";
+import {TapeComboboxComponent} from "./tape-combobox.component";
 
-// declare let angular: any;
-// let myApp = angular.module('myApp',[]);
-//
-// myApp.controller('DoubleController', ['$scope', function($scope: { items: { id: number; name: string; }[]; }) {
-//     $scope.items = [
-//         {
-//             id: 1,
-//             name: 'qwe'
-//         }
-//
-//     ];
-// }]);
+let tapeLength = 0;
 
 @Component({
     selector: 'app-root',
@@ -27,27 +16,52 @@ import {TapeCombobox} from "./tapecombobox";
                 <button class="header-button common-button" type="submit"> ОБ АВТОРАХ</button>
             </div>
             <hr>
-            <div class="algorithm">
-                <div class="tape row">
-                    <div class="tape-element-scope">
-                        <p class="label">1</p>
-                        <div class="tape-element">
-                            <app-tape-combobox></app-tape-combobox>
-                        </div>
+            <div class="main row">
+                <div class="algorithm">
+                    <div class="tape row">
+                        <ng-template #viewContainerRef></ng-template>
                     </div>
-                    <div class="tape-element-scope">
-                        <p>2</p>
-                        <div class="tape-element">
-                            <p>3</p>
-                        </div>
-                    </div>
-                    <div class="tape-element-scope">
-                        <p>2</p>
-                        <div class="tape-element">
-                            <p>3</p>
-                        </div>
-                    </div>
+
+                    
                 </div>
+                <form class="settings">
+                    <p>Параметры запуска:</p>
+                    <div class="tape-length">
+                        <p>Длина ленты:</p>
+                        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
+                    </div>
+                    <div class="operand">
+                        <p>Операнд 1:</p>
+                        <input class="input-text" type="number" id="operand-1" min="0" max="20">
+                    </div>
+                    <div class="operand">
+                        <p>Операнд 2:</p>
+                        <input class="input-text" type="number" id="operand-2" min="0" max="20">
+                    </div>
+                    
+                    <div class="launch">
+                        <p>Режим:</p>
+                        <div>
+                            <input type="radio" id="standard" name="drone" value="standard"
+                                   checked>
+                            <label for="standard">СТАНДАРТНЫЙ</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="step-by-step" name="drone" value="step-by-step">
+                            <label for="step-by-step">ПОШАГОВЫЙ</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="fast" name="drone" value="fast">
+                            <label for="fast">БЫСТРЫЙ</label>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <button class="common-button launch-button" type="submit">ЗАПУСТИТЬ</button>
+                    </div>
+                    
+                </form>
             </div>
             <div class="alphabet">
                 <button class="button" (click)="showAlphabet()">Алфавит</button>
@@ -65,6 +79,7 @@ import {TapeCombobox} from "./tapecombobox";
                 </div>
                 
             </div>
+            
             <p>Имя пользователя: {{user?.name}}</p>
         </div>`,
     // styleUrls: ['./style.css'],
@@ -74,11 +89,39 @@ import {TapeCombobox} from "./tapecombobox";
     // styleUrls: ['./app.component.css']
 })
 
-
-
 export class AppComponent implements OnInit {
     symbols: string[] = ["1", "2", "3"]
     alphabet: Boolean = false
+    @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
+    ref!: ComponentRef<TapeComboboxComponent>
+
+    addChild() {
+        ++tapeLength
+        this.ref = this.vcr.createComponent(TapeComboboxComponent)
+        this.ref.instance.label = tapeLength
+    }
+
+    removeChild() {
+        this.vcr.remove(this.vcr.length - 1)
+        --tapeLength
+    }
+
+    onTapeLengthChange(event: any) {
+        let newTapeLength = event.target.value
+        let oldTapeLength = tapeLength
+        if (newTapeLength >= 10 && newTapeLength <= 200){
+            if (newTapeLength > oldTapeLength ) {
+                for (let i = 0; i < newTapeLength - oldTapeLength; i++){
+                    this.addChild()
+                }
+            } else {
+                for (let i = 0; i < oldTapeLength - newTapeLength; i++){
+                    this.removeChild()
+                }
+            }
+        }
+    }
+
     user: User | undefined;
     items: any = [
         {
@@ -111,5 +154,10 @@ export class AppComponent implements OnInit {
 
     deleteSymbol(event : any){
         this.symbols.splice(event.target.id, 1)
+    }
+    ngAfterViewInit() {
+        for (let i = 0; i < 16; i++){
+            this.addChild()
+        }
     }
 }

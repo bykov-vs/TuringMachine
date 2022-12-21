@@ -5,12 +5,12 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from '@angular/material/button';
-import {TapeCombobox} from "./tapecombobox";
+import {TapeComboboxComponent} from "./tape-combobox.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    TapeCombobox
+    TapeComboboxComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,
