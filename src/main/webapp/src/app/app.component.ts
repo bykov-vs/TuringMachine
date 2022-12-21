@@ -49,6 +49,22 @@ import {TapeCombobox} from "./tapecombobox";
                     </div>
                 </div>
             </div>
+            <div class="alphabet">
+                <button class="button" (click)="showAlphabet()">Алфавит</button>
+                <div *ngIf="alphabet" class="symbols">
+                    
+                    <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
+                        <input  class="symbol" type="text" 
+                        [value]="symbol"
+                        id={{i}}
+                        (change)="changeSymbol($event)">
+                        <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
+                    </div>
+                    <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
+
+                </div>
+                
+            </div>
             <p>Имя пользователя: {{user?.name}}</p>
         </div>`,
     // styleUrls: ['./style.css'],
@@ -61,7 +77,8 @@ import {TapeCombobox} from "./tapecombobox";
 
 
 export class AppComponent implements OnInit {
-
+    symbols: string[] = ["1", "2", "3"]
+    alphabet: Boolean = false
     user: User | undefined;
     items: any = [
         {
@@ -78,5 +95,21 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
+    }
+
+    showAlphabet(){
+        this.alphabet = !this.alphabet
+    }
+
+    addSymbol(){
+        this.symbols.push("")
+    }
+
+    changeSymbol(event : any){
+        this.symbols[event.target.id] = event.target.value
+    }
+
+    deleteSymbol(event : any){
+        this.symbols.splice(event.target.id, 1)
     }
 }

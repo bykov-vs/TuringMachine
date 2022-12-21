@@ -6,6 +6,46 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    .alphabet{
+      display: block;
+    }
+
+    .alphabet > .button{
+      background-color: #eee;
+      color: black;
+      cursor: pointer;
+      padding: 10px;
+      width: max-content;
+      text-align: left;
+      border: none;
+      outline: none;
+      transition: 0.4s;
+      margin-bottom: 10px;
+    }
+
+    .symbol-group{
+      
+    }
+
+    .symbol-group > button{
+      margin-left: 10px;
+    }
+
+    .symbol{
+      font-size: 16px;
+      margin-bottom: 10px;
+      width: max-content;
+    }
+    .symbols{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .symbols > button{
+      width: max-content;
+    }
+  </style>
 </head>
 <body>
   <app-root></app-root>
