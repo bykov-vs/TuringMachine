@@ -4,13 +4,10 @@ import {HttpService} from "./HttpService";
 @Component({
     selector: 'app-tape-combobox',
     template: `
-<!--        <div ng-controller="DoubleController">-->
-<!--            <select ng-model="data-ng-model" ng-options="item.id as item.name for item in items"></select>-->
-<!--        </div>-->
         <div class="tape-element-scope">
-            <p class="label">1</p>
+            <p class="label">{{label}}</p>
             <div class="tape-element">
-                <select class="label">
+                <select class="label" id="{{id}}">
                     <option>-</option>
                     <option>*</option>
                     <option>_</option>
@@ -19,7 +16,7 @@ import {HttpService} from "./HttpService";
         </div>
         `
 })
-export class TapeCombobox {
+export class TapeComboboxComponent {
     items: any = [
         {
             id: 1,
@@ -28,6 +25,8 @@ export class TapeCombobox {
 
     ];
     jsonObject: JSON;
+    label: any;
+    id: any;
     constructor() {
         this.jsonObject = <JSON>this.items;
     }

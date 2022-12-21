@@ -2,7 +2,9 @@ import {Component, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@ang
 import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {HttpService} from "./HttpService";
-import {TapeCombobox} from "./tapecombobox";
+import {TapeComboboxComponent} from "./tape-combobox.component";
+
+let tapeLength = 0;
 
 @Component({
     selector: 'app-root',
@@ -18,24 +20,6 @@ import {TapeCombobox} from "./tapecombobox";
                 <div class="algorithm">
                     <div class="tape row">
                         <ng-template #viewContainerRef></ng-template>
-                        <div class="tape-element-scope">
-                            <p class="label">1</p>
-                            <div class="tape-element">
-                                <app-tape-combobox></app-tape-combobox>
-                            </div>
-                        </div>
-                        <div class="tape-element-scope">
-                            <p>2</p>
-                            <div class="tape-element">
-                                <p>3</p>
-                            </div>
-                        </div>
-                        <div class="tape-element-scope">
-                            <p>2</p>
-                            <div class="tape-element">
-                                <p>3</p>
-                            </div>
-                        </div>
                     </div>
 
                     
@@ -44,7 +28,7 @@ import {TapeCombobox} from "./tapecombobox";
                     <p>Параметры запуска:</p>
                     <div class="tape-length">
                         <p>Длина ленты:</p>
-                        <input class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
+                        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
                     </div>
                     <div class="operand">
                         <p>Операнд 1:</p>
@@ -91,17 +75,33 @@ import {TapeCombobox} from "./tapecombobox";
 
 export class AppComponent implements OnInit {
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
-    ref!: ComponentRef<TapeCombobox>
+    ref!: ComponentRef<TapeComboboxComponent>
 
     addChild() {
-        this.ref = this.vcr.createComponent(TapeCombobox)
+        ++tapeLength
+        this.ref = this.vcr.createComponent(TapeComboboxComponent)
+        this.ref.instance.label = tapeLength
     }
 
     removeChild() {
-        const index = this.vcr.indexOf(this.ref.hostView)
+        this.vcr.remove(this.vcr.length - 1)
+        --tapeLength
+    }
 
-        if (index != -1)
-            this.vcr.remove(index)
+    onTapeLengthChange(event: any) {
+        let newTapeLength = event.target.value
+        let oldTapeLength = tapeLength
+        if (newTapeLength >= 10 && newTapeLength <= 200){
+            if (newTapeLength > oldTapeLength ) {
+                for (let i = 0; i < newTapeLength - oldTapeLength; i++){
+                    this.addChild()
+                }
+            } else {
+                for (let i = 0; i < oldTapeLength - newTapeLength; i++){
+                    this.removeChild()
+                }
+            }
+        }
     }
 
     user: User | undefined;
@@ -120,5 +120,11 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
+    }
+
+    ngAfterViewInit() {
+        for (let i = 0; i < 16; i++){
+            this.addChild()
+        }
     }
 }

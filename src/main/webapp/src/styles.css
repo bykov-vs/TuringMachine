@@ -35,18 +35,17 @@
 
 .tape {
     margin-left: 5%;
-
 }
 
 .tape-element-scope {
     flex: 1;
     margin-left: 1px;
     margin-right: 1px;
+    width: available;
 }
 
 .tape-element {
     border:1px solid #333333;
-    width: border-box;
     text-align: center;
 }
 
