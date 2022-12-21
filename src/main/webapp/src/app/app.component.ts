@@ -22,7 +22,22 @@ let tapeLength = 0;
                         <ng-template #viewContainerRef></ng-template>
                     </div>
 
-                    
+                    <div class="alphabet">
+                        <button class="common-button" (click)="showAlphabet()">Алфавит</button>
+                        <div *ngIf="alphabet" class="symbols">
+
+                            <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
+                                <input  class="symbol" type="text"
+                                        [value]="symbol"
+                                        id={{i}}
+                                        (change)="changeSymbol($event)">
+                                <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
+                            </div>
+                            <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
+
+                        </div>
+
+                    </div>
                 </div>
                 <form class="settings">
                     <p>Параметры запуска:</p>
@@ -62,22 +77,6 @@ let tapeLength = 0;
                     </div>
                     
                 </form>
-            </div>
-            <div class="alphabet">
-                <button class="button" (click)="showAlphabet()">Алфавит</button>
-                <div *ngIf="alphabet" class="symbols">
-                    
-                    <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
-                        <input  class="symbol" type="text" 
-                        [value]="symbol"
-                        id={{i}}
-                        (change)="changeSymbol($event)">
-                        <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
-                    </div>
-                    <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
-
-                </div>
-                
             </div>
             
             <p>Имя пользователя: {{user?.name}}</p>
