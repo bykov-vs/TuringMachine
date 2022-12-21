@@ -26,7 +26,6 @@
     background: rgba(22, 192, 172, 0.78);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transform: rotate(0.14deg);
-    margin-bottom: 5px;
 }
 
 .algorithm {
@@ -36,6 +35,8 @@
 
 .tape {
     margin-left: 5%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .tape-element-scope {
@@ -65,6 +66,7 @@
     background: rgba(217, 217, 217, 0.29);
     border: 1px solid #000000;
     padding-left: 5px;
+    height: fit-content;
 }
 
 .center {
@@ -85,4 +87,43 @@
 
 .alphabet {
     margin-top: 20px;
+}
+
+.table {
+    /*margin-top: 5px;*/
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /*flex-flow: row nowrap;*/
+    justify-content: left;
+}
+
+.table > ul {
+    list-style-type: none;
+}
+
+.column {
+    width: 100%;
+    padding: 0;
+}
+
+.column > li {
+    padding: 0;
+    /*display: inline-block;*/
+    border: 1px solid grey;
+    min-width: 100px;
+    min-height: 50px;
+    text-align: center;
+}
+
+.selected {
+    background: lightgreen;
+}
+
+.column .column-header {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    background: lightgrey;
+    font-size: 16px;
+    font-weight: bold;
 }
