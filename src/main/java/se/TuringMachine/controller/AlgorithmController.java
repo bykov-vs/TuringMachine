@@ -10,14 +10,23 @@ import se.TuringMachine.service.MainService;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/algorithm")
 @AllArgsConstructor
 public class AlgorithmController {
     private final MainService service;
 
     @PostMapping("/save")
     public ResponseEntity<?> saveAlgorithm(@RequestBody Algorithm algorithm){
-        service.save(algorithm);
+        service.saveAlgorithm(algorithm);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/alg")
+    public ResponseEntity<?> findAlgorithm(@RequestParam Long id){
+        Algorithm algorithm = service.findAlgorithm(id);
+        return algorithm != null ?
+                new ResponseEntity<>(algorithm, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/")
