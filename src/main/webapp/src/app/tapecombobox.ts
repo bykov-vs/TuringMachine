@@ -4,8 +4,18 @@ import {HttpService} from "./HttpService";
 @Component({
     selector: 'app-tape-combobox',
     template: `
-        <div ng-controller="DoubleController">
-            <select ng-model="data-ng-model" ng-options="item.id as item.name for item in items"></select>
+<!--        <div ng-controller="DoubleController">-->
+<!--            <select ng-model="data-ng-model" ng-options="item.id as item.name for item in items"></select>-->
+<!--        </div>-->
+        <div class="tape-element-scope">
+            <p class="label">1</p>
+            <div class="tape-element">
+                <select class="label">
+                    <option>-</option>
+                    <option>*</option>
+                    <option>_</option>
+                </select>
+            </div>
         </div>
         `
 })

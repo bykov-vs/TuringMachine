@@ -47,6 +47,7 @@
 .tape-element {
     border:1px solid #333333;
     width: border-box;
+    text-align: center;
 }
 
 .tape-element-scope .label {
@@ -55,5 +56,30 @@
     font-style: normal;
     font-size: 16px;
     font-weight: bold;
+}
+
+.settings {
+    min-height: 70%;
+    min-width: 20%;
+    margin-top: 20px;
+    background: rgba(217, 217, 217, 0.29);
+    border: 1px solid #000000;
+    padding-left: 5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.settings .input-text{
+    min-width: 96%;
+}
+
+.launch-button {
+    text-align: center;
+    min-width: 7%;
+    min-height: 7%;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
