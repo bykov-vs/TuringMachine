@@ -14,6 +14,8 @@ public class Alphabet {
     @Column(name = "id_alphabet")
     private Long id;
 
+    private String name;
+
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Symbol> symbol;
 }
