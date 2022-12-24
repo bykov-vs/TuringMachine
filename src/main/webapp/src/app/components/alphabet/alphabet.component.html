@@ -1,0 +1,14 @@
+<div class="alphabet">
+    <button class="button common-button" (click)="showAlphabet()">Алфавит</button>
+    <div *ngIf="alphabet" class="symbols">
+        <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
+            <input  class="symbol" type="text"
+                    [value]="symbol"
+                    id={{i}}
+                    (change)="changeSymbol($event)">
+            <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
+        </div>
+        <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
+
+    </div>
+</div>

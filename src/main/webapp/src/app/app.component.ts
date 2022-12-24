@@ -15,7 +15,6 @@ let tapeLength = 0;
 
 export class AppComponent implements OnInit {
     symbols: string[] = ["0", "1", "+"]
-    alphabet: Boolean = false
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>
 
@@ -251,6 +250,7 @@ export class AppComponent implements OnInit {
         this.ref = this.vcr.createComponent(TapeComboboxComponent)
         this.ref.instance.label = tapeLength
         this.ref.instance.id = tapeLength
+        this.ref.instance.symbols = this.symbols
     }
 
     removeChild() {
@@ -281,22 +281,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         // this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
-    }
-
-    showAlphabet(){
-        this.alphabet = !this.alphabet
-    }
-
-    addSymbol(){
-        this.symbols.push("")
-    }
-
-    changeSymbol(event : any){
-        this.symbols[event.target.id] = event.target.value
-    }
-
-    deleteSymbol(event : any){
-        this.symbols.splice(event.target.id, 1)
     }
 
     sleep(ms: any) {

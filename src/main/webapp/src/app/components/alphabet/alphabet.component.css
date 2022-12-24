@@ -1,0 +1,34 @@
+.alphabet{
+    display: block;
+  }
+
+  .alphabet > .button{
+    cursor: pointer;
+    padding: 10px;
+    width: max-content;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  .symbol-group{
+    
+  }
+
+  .symbol-group > button{
+    margin-left: 10px;
+  }
+
+  .symbol{
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: max-content;
+  }
+  .symbols{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .symbols > button{
+    width: max-content;
+  }

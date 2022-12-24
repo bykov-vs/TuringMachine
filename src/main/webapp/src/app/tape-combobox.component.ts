@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {HttpService} from "./HttpService";
 
 @Component({
@@ -8,10 +8,8 @@ import {HttpService} from "./HttpService";
             <p class="label">{{label}}</p>
             <div class="tape-element">
                 <select class="label" id="tape-element-{{id}}">
-                    <option value="_">_</option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="+">+</option>
+                    <option>_</option>
+                    <option *ngFor="let symbol of symbols" [value]="symbol">{{symbol}}</option>
                 </select>
             </div>
         </div>
@@ -20,6 +18,7 @@ import {HttpService} from "./HttpService";
 export class TapeComboboxComponent {
     label: any;
     id: any;
+    symbols : String[] = []
     constructor() {
 
     }
