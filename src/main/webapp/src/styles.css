@@ -109,11 +109,15 @@
 
 .column > li {
     padding: 0;
-    /*display: inline-block;*/
+    display: flex;
     border: 1px solid grey;
     min-width: 100px;
     min-height: 50px;
     text-align: center;
+}
+
+.column > li > select{
+
 }
 
 .selected {

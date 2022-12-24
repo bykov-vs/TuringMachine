@@ -6,11 +6,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from '@angular/material/button';
 import {TapeComboboxComponent} from "./tape-combobox.component";
+import { AlgTableComponent } from './components/alg-table/alg-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TapeComboboxComponent
+    TapeComboboxComponent,
+    AlgTableComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,

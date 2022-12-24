@@ -8,132 +8,13 @@ let tapeLength = 0;
 
 @Component({
     selector: 'app-root',
-    template: `
-        <div>
-            <h1>Машина Тьюринга</h1>
-            <div class="header-buttons">
-                <button class="header-button common-button" type="submit"> О СИСТЕМЕ</button>
-                <button class="header-button common-button" type="submit"> ОБ АВТОРАХ</button>
-            </div>
-            <hr>
-            <div class="main row">
-                <div class="algorithm">
-                    <div class="tape row">
-                        <ng-template #viewContainerRef></ng-template>
-                    </div>
-
-                    <div class="alphabet">
-                        <button class="button common-button" (click)="showAlphabet()">Алфавит</button>
-                        <div *ngIf="alphabet" class="symbols">
-
-                            <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
-                                <input  class="symbol" type="text"
-                                        [value]="symbol"
-                                        id={{i}}
-                                        (change)="changeSymbol($event)">
-                                <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
-                            </div>
-                            <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
-
-                        </div>
-                    </div>
-
-                    <div class="table">
-                        <ul class="column">
-                            <li class="column-header"></li>
-                            <li>0</li>
-                            <li>1</li>
-                            <li>+</li>
-                            <li>_</li>
-                        </ul>
-                        <ul class="column">
-                            <li class="column-header">Q1</li>
-                            <li id="col-1-row-1">1 🠔 Q1</li>
-                            <li id="col-1-row-2">0 🠔 Q2</li>
-                            <li id="col-1-row-3">_ 🠖 Q5</li>
-                            <li id="col-1-row-4"> </li>
-                        </ul>
-                        <ul class="column">
-                            <li class="column-header">Q2</li>
-                            <li id="col-2-row-1">0 🠔 Q2</li>
-                            <li id="col-2-row-2">1 🠔 Q2</li>
-                            <li id="col-2-row-3">+ 🠔 Q3</li>
-                            <li id="col-2-row-4"> </li>
-                        </ul>
-                        <ul class="column">
-                            <li class="column-header">Q3</li>
-                            <li id="col-3-row-1">1 🠖 Q4</li>
-                            <li id="col-3-row-2">0 🠔 Q3</li>
-                            <li id="col-3-row-3"> </li>
-                            <li id="col-3-row-4">1 🠖 Q4</li>
-                        </ul>
-                        <ul class="column">
-                            <li class="column-header">Q4</li>
-                            <li id="col-4-row-1">0 🠖 Q4</li>
-                            <li id="col-4-row-2">1 🠖 Q4</li>
-                            <li id="col-4-row-3">+ 🠖 Q4</li>
-                            <li id="col-4-row-4">_ 🠔 Q1</li>
-                        </ul>
-                        <ul class="column">
-                            <li class="column-header">Q5</li>
-                            <li id="col-5-row-1"> </li>
-                            <li id="col-5-row-2">_ 🠖 Q5</li>
-                            <li id="col-5-row-3"> </li>
-                            <li id="col-5-row-4">_ 🠗 Q6</li>
-                        </ul>
-                    </div>
-                </div>
-                <form class="settings">
-                    <p>Параметры запуска:</p>
-                    <div class="tape-length">
-                        <p>Длина ленты:</p>
-                        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
-                    </div>
-                    <div class="operand">
-                        <p>Операнд 1:</p>
-                        <input class="input-text" type="number" id="operand-1" min="0" max="20">
-                    </div>
-                    <div class="operand">
-                        <p>Операнд 2:</p>
-                        <input class="input-text" type="number" id="operand-2" min="0" max="20">
-                    </div>
-                    
-                    <div class="launch">
-                        <p>Режим:</p>
-                        <div>
-                            <input type="radio" id="standard" name="drone" value="standard"
-                                   checked>
-                            <label for="standard">СТАНДАРТНЫЙ</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" id="step-by-step" name="drone" value="step-by-step">
-                            <label for="step-by-step">ПОШАГОВЫЙ</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" id="fast" name="drone" value="fast">
-                            <label for="fast">БЫСТРЫЙ</label>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <button (click)="runAlgorithm()" class="common-button launch-button" type="submit">ЗАПУСТИТЬ</button>
-                    </div>
-                    
-                </form>
-                
-            </div>
-            
-        </div>`,
-    // styleUrls: ['./style.css'],
-    providers: [HttpService]
-    // selector: 'app-root',
-    // templateUrl: './app.component.html',
-    // styleUrls: ['./app.component.css']
+    templateUrl: './app.component.html',
+    providers: [HttpService],
+    styleUrls: ['./app.component.css']
 })
 
 export class AppComponent implements OnInit {
-    symbols: string[] = ["0", "1", "+", "_"]
+    symbols: string[] = ["0", "1", "+"]
     alphabet: Boolean = false
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>

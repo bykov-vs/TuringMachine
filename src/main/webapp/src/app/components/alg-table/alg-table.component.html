@@ -1,0 +1,35 @@
+<div class="table">
+    <ul class="column">
+        <li class="column-header"></li>
+        <li *ngFor="let symbol of symbols">
+            {{symbol}}
+        </li>
+    </ul>
+    <ul *ngFor="let state of states | slice:0:states.length-1; index as i " class="column">
+        <li class="column-header">Q{{i+1}}</li>
+        <li *ngFor="let symbol of symbols; index as j">
+            <input [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"  
+                (click)="showList(i, j)" 
+                onkeypress="return false;">
+            <div *ngIf="((isOpen) && (type == 0) && (cells[i][j]))" (click)="increaseType($event)" class="dropdown-content">
+                <button *ngFor="let s of symbols" [value]="s">{{s}}</button>
+            </div>
+            <div *ngIf="((isOpen) && (type == 1) && (cells[i][j]))" (click)="increaseType($event)" class="dropdown-content">
+                <button *ngFor="let m of moves" [value]="m">{{m}}</button>
+            </div>
+            <div *ngIf="((isOpen) && (type == 2) && (cells[i][j]))" (click)="increaseType($event)" class="dropdown-content">
+                <button *ngFor="let st of states" [value]="st">Q{{st}}</button>
+            </div>
+        </li>
+    </ul>
+</div>
+<!--   <input [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"  (click)="showList(i, j)">
+            <select *ngIf="((isOpen) && (type == 0) && (cells[i][j]))" (change)="increaseType($event)" name="" id="">
+                <option *ngFor="let s of symbols" [value]="s">{{s}}</option>
+            </select>
+            <select *ngIf="((isOpen) && (type == 1) && (cells[i][j]))" (change)="increaseType($event)" name="" id="">
+                <option *ngFor="let m of moves" [value]="m">{{m}}</option>
+            </select>
+            <select *ngIf="((isOpen) && (type == 2) && (cells[i][j]))" (change)="increaseType($event)" name="" id="">
+                <option *ngFor="let st of states" [value]="st">Q{{st}}</option>
+            </select>-->
