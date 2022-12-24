@@ -1,5 +1,5 @@
 import { Component, Input, Inject, AfterViewInit, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Command } from './command';
 
 @Component({
   selector: 'app-alg-table',
@@ -19,7 +19,16 @@ export class AlgTableComponent implements OnInit{
   moves : String[] = ["Л","П","Н"]
   cellsValues : String[][] = [[]]
 
+  move : String = ""
+  state : Number = 0
+  symbol : String = ""
+  newSymbol : String = ""
+  nextState : Number = 0
+
+  commands : Command[] | undefined
+
   ngOnInit(): void {
+    this.commands = new Array(0);
     this.cells = new Array(this.states.length)
       for (let i = 0; i < this.cells.length; i++){
         this.cells[i] = new Array(this.symbols.length).fill(false)
@@ -42,10 +51,28 @@ export class AlgTableComponent implements OnInit{
   }
 
   increaseType(event : any){
-    console.log(this.type)
     this.command += event.target.value
+    if (this.type == 0){
+      this.newSymbol = event.target.value
+    }
+    if (this.type == 1){
+      this.move = event.target.value
+    }
     if (this.type == 2){
       this.type = 0
+      this.nextState = event.target.value
+      this.state = this.states[this.cellCol]
+      this.symbol = this.symbols[this.cellRow]
+
+      let command : Command = {
+        move: this.move,
+        newSymbol: this.newSymbol,
+        state: this.state,
+        nextState: this.nextState,
+        symbol: this.symbol
+      }
+      this.commands?.push(command)
+
       this.isOpen = false
       this.cellsValues[this.cellRow][this.cellCol] = this.command
       this.command=""
