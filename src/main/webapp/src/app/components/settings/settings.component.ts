@@ -27,10 +27,11 @@ export class SettingsComponent {
   createRequest() : any{
     let symbols = []
     let name : String = "test_alg"
-    let tapeLength : number = 3
-    let firstOperand : string = this.operand1.toString()
-    let secondOperand : string = this.operand2.toString()
-    let tape : String = firstOperand+secondOperand
+    let tapeLength : number = this.tapeElements.length
+    let tape : String = ""
+    for (let x of this.tapeElements){
+      tape+=x
+    }
     for (let x of this.symbols){
       symbols.push({"name":x})
     }
