@@ -10,4 +10,6 @@ export class HttpService {
     getData() {
         return this.http.get('http://localhost:8080')
     }
+
+    
 }

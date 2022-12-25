@@ -41,8 +41,6 @@
 
 .tape-element-scope {
     flex: 1;
-    margin-left: 1px;
-    margin-right: 1px;
     width: available;
 }
 
@@ -110,14 +108,17 @@
 .column > li {
     padding: 0;
     display: flex;
+    flex-direction: row;
     border: 1px solid grey;
     min-width: 100px;
     min-height: 50px;
     text-align: center;
 }
 
-.column > li > select{
-
+.column > li > input{
+    flex-grow: 1;
+    width: auto;
+    height: auto;
 }
 
 .selected {

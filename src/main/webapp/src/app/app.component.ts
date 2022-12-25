@@ -283,30 +283,6 @@ export class AppComponent implements OnInit {
         // this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
     }
 
-    sleep(ms: any) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    runAlgorithm() {
-        let element, tapeScope, combobox
-        (async () => {
-            for (const x of this.steps) {
-                element = document.getElementById('col-' + x.col + '-row-' + x.row)
-                tapeScope = document.getElementById('tape-element-scope-' + x.tape)
-                combobox = document.getElementById('tape-element-' + x.tape)
-                if (element && tapeScope && combobox) {
-                    element.setAttribute('class', 'selected')
-                    tapeScope.setAttribute('class', 'tape-element-scope selected')
-                    await this.sleep(1000);
-                    element.setAttribute('class', '')
-                    tapeScope.setAttribute('class', 'tape-element-scope')
-                    // @ts-ignore
-                    combobox.value = x.newVal
-                }
-            }
-        })();
-    }
-
     createTape() {
         for (let i = 0; i < 16; i++){
             this.addChild()

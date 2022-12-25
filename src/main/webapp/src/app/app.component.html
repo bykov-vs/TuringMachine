@@ -14,43 +14,7 @@
           <app-alg-table  [symbols] = "symbols"></app-alg-table>
       </div>
       
-      <form class="settings">
-          <p>Параметры запуска:</p>
-          <div class="tape-length">
-              <p>Длина ленты:</p>
-              <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
-          </div>
-          <div class="operand">
-              <p>Операнд 1:</p>
-              <input class="input-text" type="number" id="operand-1" min="0" max="20">
-          </div>
-          <div class="operand">
-              <p>Операнд 2:</p>
-              <input class="input-text" type="number" id="operand-2" min="0" max="20">
-          </div>
-          
-          <div class="launch">
-              <p>Режим:</p>
-              <div>
-                  <input type="radio" id="standard" name="drone" value="standard"
-                         checked>
-                  <label for="standard">СТАНДАРТНЫЙ</label>
-              </div>
-
-              <div>
-                  <input type="radio" id="step-by-step" name="drone" value="step-by-step">
-                  <label for="step-by-step">ПОШАГОВЫЙ</label>
-              </div>
-
-              <div>
-                  <input type="radio" id="fast" name="drone" value="fast">
-                  <label for="fast">БЫСТРЫЙ</label>
-              </div>
-          </div>
-          <div class="center">
-              <button (click)="runAlgorithm()" class="common-button launch-button" type="submit">ЗАПУСТИТЬ</button>
-          </div>
-      </form>
+      <app-settings class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
       
   </div>
   

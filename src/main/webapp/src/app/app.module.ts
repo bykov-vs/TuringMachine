@@ -8,13 +8,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {TapeComboboxComponent} from "./tape-combobox.component";
 import { AlgTableComponent } from './components/alg-table/alg-table.component';
 import { AlphabetComponent } from './components/alphabet/alphabet.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TapeComboboxComponent,
     AlgTableComponent,
-    AlphabetComponent
+    AlphabetComponent,
+    SettingsComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,
