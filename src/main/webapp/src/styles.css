@@ -52,7 +52,7 @@
     /*overflow: hidden;*/
     overflow-y: hidden;
     overflow-x: scroll;
-    /*white-space: nowrap;*/
+    white-space: nowrap;
     height: 100px;
     width: 94%;
 }
