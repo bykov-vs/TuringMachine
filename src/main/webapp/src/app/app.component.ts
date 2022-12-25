@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
     commands!: Command[];
     tapeHeadPosition = 8;
+    numberOfStates: number = 3;
 
     steps: any = [
         {
@@ -249,6 +250,10 @@ export class AppComponent implements OnInit {
 
     setCommands(newCommands: Command[]) {
         this.commands = newCommands;
+    }
+
+    setNumberOfStates(newNumberOfStates: number) {
+        this.numberOfStates = newNumberOfStates
     }
 
     addChild() {

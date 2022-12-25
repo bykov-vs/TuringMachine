@@ -29,6 +29,7 @@ export class AlgTableComponent implements OnInit {
 
     @Output() newItemEvent = new EventEmitter<Command[]>();
     commands: Command[] | undefined
+    @Output() newNumberOfStates = new EventEmitter<number>();
 
     ngOnInit(): void {
         this.commands = new Array(0);
@@ -47,16 +48,19 @@ export class AlgTableComponent implements OnInit {
         if (i == 0) {
             return
         }
-        this.states.splice(i - 1, 0, i)
+        this.states.splice(i - 1, 0, 1)
+        this.states[i - 1] = (i).valueOf()
         for (let j = i; j < this.states.length; j++) {
             this.states[j] += 1
         }
+        console.log(this.states)
         this.changeCells()
     }
 
     insertColumnRight(i: number) {
-        this.states.splice(i + 1, 0, i + 1)
-        for (let j = i; j < this.states.length; j++) {
+        this.states.splice(i + 1, 0, 1)
+        this.states[i + 1] = (i + 1).valueOf()
+        for (let j = i + 1; j < this.states.length; j++) {
             this.states[j] += 1
         }
         console.log(this.states)
@@ -70,6 +74,7 @@ export class AlgTableComponent implements OnInit {
         for (let j = i; j < this.states.length; j++) {
             this.states[j] -= 1
         }
+        console.log(this.states)
         this.changeCells()
     }
 

@@ -21,6 +21,7 @@ export class SettingsComponent {
     @Input() commands: Command[] = []
     @Input() symbols: String[] = []
     @Input() tapeHeadPosition: Number = 8
+    @Input() numberOfStates: number = 3
     speedRange: number = 10
     stepNumber: number = 0
 
@@ -56,7 +57,7 @@ export class SettingsComponent {
             "alphabet": symbols,
             "commands": this.commands,
             "tapeHeadPosition": this.tapeHeadPosition.valueOf() - 1,
-            "numberOfStates": (3 - 1)
+            "numberOfStates": (this.numberOfStates - 1)
         }
         return request
     }
