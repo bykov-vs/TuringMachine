@@ -1,128 +1,130 @@
 import {Component, Input, Inject, AfterViewInit, OnInit, Output, EventEmitter} from '@angular/core';
-import { Command } from './command';
-import { ViewEncapsulation } from '@angular/core';
+import {Command} from './command';
+import {ViewEncapsulation} from '@angular/core';
 
 @Component({
-  selector: 'app-alg-table',
-  templateUrl: './alg-table.component.html',
-  styleUrls: ['./alg-table.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-alg-table',
+    templateUrl: './alg-table.component.html',
+    styleUrls: ['./alg-table.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
-export class AlgTableComponent implements OnInit{
-  @Input() 
-  symbols : String[] = []
-  command : String = ""
-  states : number[] = [1, 2, 3, 4]
-  isOpen : boolean = false
-  type : number = 0
-  cells : boolean[][] = [[]]
-  cellRow : number = -1
-  cellCol : number = -1
-  moves : String[] = ["Л","П","Н"]
-  cellsValues : String[][] = [[]]
+export class AlgTableComponent implements OnInit {
+    @Input()
+    symbols: String[] = []
+    command: String = ""
+    states: number[] = [1, 2, 3, 4]
+    isOpen: boolean = false
+    type: number = 0
+    cells: boolean[][] = [[]]
+    cellRow: number = -1
+    cellCol: number = -1
+    moves: String[] = ["Л", "П", "Н"]
+    cellsValues: String[][] = [[]]
 
-  move : String = ""
-  state : Number = 0
-  symbol : String = ""
-  newSymbol : String = ""
-  nextState : Number = 0
+    move: String = ""
+    state: Number = 0
+    symbol: String = ""
+    newSymbol: String = ""
+    nextState: Number = 0
 
-  @Output() newItemEvent = new EventEmitter<Command[]>();
-  commands : Command[] | undefined
+    @Output() newItemEvent = new EventEmitter<Command[]>();
+    commands: Command[] | undefined
 
-  ngOnInit(): void {
-    this.commands = new Array(0);
-    this.cells = new Array(this.states.length)
-      for (let i = 0; i < this.cells.length; i++){
-        this.cells[i] = new Array(this.symbols.length).fill(false)
-      }
+    ngOnInit(): void {
+        this.commands = new Array(0);
+        this.cells = new Array(this.states.length)
+        for (let i = 0; i < this.cells.length; i++) {
+            this.cells[i] = new Array(this.symbols.length).fill(false)
+        }
 
-      this.cellsValues = new Array(this.states.length)
-      for (let i = 0; i < this.cellsValues.length; i++){
-        this.cellsValues[i] = new Array(this.symbols.length).fill("")
-      }
-  }
-
-  insertColumnLeft(i : number){
-    if (i == 0){
-      return
+        this.cellsValues = new Array(this.states.length)
+        for (let i = 0; i < this.cellsValues.length; i++) {
+            this.cellsValues[i] = new Array(this.symbols.length).fill("")
+        }
     }
-    this.states.splice(i-1, 0, i)
-    for (let j = i;  j < this.states.length; j++){
-      this.states[j] += 1
-    }
-    this.changeCells()
-  }
-  insertColumnRight(i : number){
-    this.states.splice(i+1, 0, i+1)
-    for (let j = i;  j < this.states.length; j++){
-      this.states[j] += 1
-    }
-    console.log(this.states)
-    this.changeCells()
-  }
 
-  deleteColumn(i : number){
-    if (i > -1) { 
-      this.states.splice(i, 1);
+    insertColumnLeft(i: number) {
+        if (i == 0) {
+            return
+        }
+        this.states.splice(i - 1, 0, i)
+        for (let j = i; j < this.states.length; j++) {
+            this.states[j] += 1
+        }
+        this.changeCells()
     }
-    for (let j = i;  j < this.states.length; j++){
-      this.states[j] -= 1
-    }
-    this.changeCells()
-  }
-  changeCells(){
-    this.cells = new Array(this.states.length)
-      for (let i = 0; i < this.cells.length; i++){
-        this.cells[i] = new Array(this.symbols.length).fill(false)
-      }
 
-      this.cellsValues = new Array(this.states.length)
-      for (let i = 0; i < this.cellsValues.length; i++){
-        this.cellsValues[i] = new Array(this.symbols.length).fill("")
-      }
-  }
-
-  showList(i :number, j :number){
-    if((this.cellCol) != -1 && (this.cellRow != -1)){
-      this.cells[this.cellRow][this.cellCol] = false
+    insertColumnRight(i: number) {
+        this.states.splice(i + 1, 0, i + 1)
+        for (let j = i; j < this.states.length; j++) {
+            this.states[j] += 1
+        }
+        console.log(this.states)
+        this.changeCells()
     }
-    this.isOpen = true
-    this.cells[i][j] = true
-    this.cellRow = i
-    this.cellCol = j
-  }
 
-  increaseType(event : any){
-    this.command += event.target.value
-    if (this.type == 0){
-      this.newSymbol = event.target.value
+    deleteColumn(i: number) {
+        if (i > -1) {
+            this.states.splice(i, 1);
+        }
+        for (let j = i; j < this.states.length; j++) {
+            this.states[j] -= 1
+        }
+        this.changeCells()
     }
-    if (this.type == 1){
-      this.move = event.target.value
-    }
-    if (this.type == 2){
-      this.type = 0
-      this.nextState = parseInt(event.target.value)
-      this.state = this.states[this.cellRow]
-      this.symbol = this.symbols[this.cellCol]
 
-      let command : Command = {
-        move: this.move,
-        newSymbol: this.newSymbol,
-        state: (this.state.valueOf() - 1),
-        nextState: this.nextState.valueOf() - 1,
-        symbol: this.symbol
-      }
-      this.commands?.push(command)
-      this.newItemEvent.emit(this.commands)
+    changeCells() {
+        this.cells = new Array(this.states.length)
+        for (let i = 0; i < this.cells.length; i++) {
+            this.cells[i] = new Array(this.symbols.length).fill(false)
+        }
 
-      this.isOpen = false
-      this.cellsValues[this.cellRow][this.cellCol] = this.command
-      this.command=""
-      return
+        this.cellsValues = new Array(this.states.length)
+        for (let i = 0; i < this.cellsValues.length; i++) {
+            this.cellsValues[i] = new Array(this.symbols.length).fill("")
+        }
     }
-    this.type++
-  }
+
+    showList(i: number, j: number) {
+        if ((this.cellCol) != -1 && (this.cellRow != -1)) {
+            this.cells[this.cellRow][this.cellCol] = false
+        }
+        this.isOpen = true
+        this.cells[i][j] = true
+        this.cellRow = i
+        this.cellCol = j
+    }
+
+    increaseType(event: any) {
+        this.command += event.target.value
+        if (this.type == 0) {
+            this.newSymbol = event.target.value
+        }
+        if (this.type == 1) {
+            this.move = event.target.value
+        }
+        if (this.type == 2) {
+            this.type = 0
+            this.nextState = parseInt(event.target.value)
+            this.state = this.states[this.cellRow]
+            this.symbol = this.symbols[this.cellCol]
+
+            let command: Command = {
+                move: this.move,
+                newSymbol: this.newSymbol,
+                state: (this.state.valueOf() - 1),
+                nextState: this.nextState.valueOf() - 1,
+                symbol: this.symbol
+            }
+            this.commands?.push(command)
+            this.newItemEvent.emit(this.commands)
+
+            this.isOpen = false
+            this.cellsValues[this.cellRow][this.cellCol] = this.command
+            this.command = ""
+            return
+        }
+        this.type++
+    }
 }
 

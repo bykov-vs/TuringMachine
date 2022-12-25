@@ -118,6 +118,9 @@
     display: flex;
     /*flex-flow: row nowrap;*/
     justify-content: left;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
 }
 
 .table > ul {
