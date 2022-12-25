@@ -1,10 +1,12 @@
 import {Component, Input, Inject, AfterViewInit, OnInit, Output, EventEmitter} from '@angular/core';
 import { Command } from './command';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-alg-table',
   templateUrl: './alg-table.component.html',
-  styleUrls: ['./alg-table.component.css']
+  styleUrls: ['./alg-table.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AlgTableComponent implements OnInit{
   @Input() 
