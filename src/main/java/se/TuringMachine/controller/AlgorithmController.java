@@ -9,6 +9,9 @@ import se.TuringMachine.entity.Algorithm;
 import se.TuringMachine.service.ExecuteService;
 import se.TuringMachine.service.MainService;
 
+import java.util.List;
+import java.util.Map;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/algorithm")
