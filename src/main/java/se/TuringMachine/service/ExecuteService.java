@@ -9,6 +9,7 @@ import se.TuringMachine.entity.Command;
 import se.TuringMachine.exception.InvalidStateException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,11 +18,8 @@ import java.util.List;
 public class ExecuteService {
 
     public ResultTapeDTO execute(Algorithm algorithm, String tape) {
-
         List<Command> commands = algorithm.getCommands();
-
         List<List<Command>> states = groupCommandsByStates(commands);
-
         StringBuilder dynamicTape = new StringBuilder();
         char[] symbols = tape.toCharArray();
         for (char symbol : symbols) {
@@ -47,14 +45,16 @@ public class ExecuteService {
             //char currentSymbol = indexOfSymbol < 0 || indexOfSymbol >= symbols.length ? ' ': symbols[indexOfSymbol];
             currentCommand = getCurrentCommand(states.get(indexOfState), currentSymbol);
             int prevState = indexOfState;
-            System.out.println(indexOfState);
-            System.out.println(algorithm.getNumberOfStates());
             if (indexOfState >= algorithm.getNumberOfStates()){
                 track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
                 break;
             }
-            if (currentCommand == null)
+            if (currentCommand == null){
+                System.out.println("state : " + indexOfState);
+                System.out.println("symbol : " + currentSymbol);
                 throw new InvalidStateException();
+            }
+
             if (currentCommand.getNextState() != -1)
                 indexOfState = currentCommand.getNextState();
             if (currentCommand.getNewSymbol() != null)
@@ -101,8 +101,9 @@ public class ExecuteService {
             }
             if (command.getState() > indexState) {
                 states.add(tempCommands);
-                indexState++;
                 tempCommands = new ArrayList<>();
+                indexState++;
+                tempCommands.add(command);
             }
         }
         if (tempCommands.size() != 0)
@@ -112,7 +113,7 @@ public class ExecuteService {
 
     private Command getCurrentCommand(List<Command> commands, char currentSymbol) {
         for (Command command : commands) {
-            System.out.println(command);
+            //System.out.println(command);
             if (command.getSymbol().equals(currentSymbol)) {
                 return command;
             }

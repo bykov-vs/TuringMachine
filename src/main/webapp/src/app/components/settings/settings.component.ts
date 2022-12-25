@@ -45,6 +45,7 @@ export class SettingsComponent {
         for (let x of this.symbols) {
             symbols.push({"name": x})
         }
+        console.log(this.commands)
         let alphabet = {"alphabet": symbols}
         let request: any = {
             "name": name,

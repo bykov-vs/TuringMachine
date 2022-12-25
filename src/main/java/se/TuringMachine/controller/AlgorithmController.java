@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.TuringMachine.dto.ResultTapeDTO;
 import se.TuringMachine.entity.Algorithm;
 import se.TuringMachine.service.ExecuteService;
 import se.TuringMachine.service.MainService;
@@ -35,6 +36,8 @@ public class AlgorithmController {
 
     @PostMapping("/execute")
     public ResponseEntity<?> executeAlgorithm(@RequestBody Algorithm algorithm){
-        return new ResponseEntity<>(executeService.execute(algorithm, algorithm.getTape()), HttpStatus.OK);
+        System.out.println(algorithm.getCommands().size() + "===============");
+        ResultTapeDTO resultTapeDTO = executeService.execute(algorithm, algorithm.getTape());
+        return new ResponseEntity<>(resultTapeDTO, HttpStatus.OK);
     }
 }
