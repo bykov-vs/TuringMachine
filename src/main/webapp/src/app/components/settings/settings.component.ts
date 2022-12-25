@@ -2,9 +2,6 @@ import {Component, EventEmitter, Output, Input} from '@angular/core';
 import {Command} from '../alg-table/command';
 import {HttpService} from "../../HttpService";
 
-let tapeElements: Array<string> = [];
-
-
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
@@ -16,6 +13,7 @@ export class SettingsComponent {
     steps: any = []
     @Output() taleLengthChange = new EventEmitter<Event>()
 
+    tapeElements: Array<string> = [];
     operand1: Number = 0
     operand2: Number = 0
     mode: String = "standard"
@@ -67,13 +65,13 @@ export class SettingsComponent {
 
     runAlgorithm() {
         let i = 1, tapeElement;
-        tapeElements = [];
+        this.tapeElements = [];
         while (tapeElement = document.getElementById('tape-element-' + i)){
             // @ts-ignore
             this.tapeElements.push(tapeElement.value)
             i++
         }
-        console.log("Элементы ленты" + tapeElements)
+        console.log("Элементы ленты" + this.tapeElements)
 
         let element, tapeScope, combobox
         (async () => {
