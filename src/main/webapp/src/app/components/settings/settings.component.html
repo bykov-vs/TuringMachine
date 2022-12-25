@@ -20,15 +20,19 @@
                    checked>
             <label for="standard">СТАНДАРТНЫЙ</label>
         </div>
-
         <div>
             <input type="radio" id="step-by-step" name="drone" (click)="changeMode('step-by-step')">
             <label for="step-by-step">ПОШАГОВЫЙ</label>
         </div>
-
         <div>
             <input type="radio" id="fast" name="drone" (click)="changeMode('fast')">
             <label for="fast">БЫСТРЫЙ</label>
+        </div>
+        <div>
+            <button (click)="nextStep()" class="hide" id="step-button">ШАГ</button>
+            <label for="speed-range" id="speed-range-label">Скорость выполнения:</label>
+            <input [(ngModel)]="speedRange" type="range" id="speed-range" name="vol" min="1" max="10" value="10" oninput="this.nextElementSibling.value = this.value">
+            <output id="speed-range-output">1</output>
         </div>
     </div>
     <div class="center">

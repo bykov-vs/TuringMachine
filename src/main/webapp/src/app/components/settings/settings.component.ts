@@ -21,6 +21,8 @@ export class SettingsComponent {
     @Input() commands: Command[] = []
     @Input() symbols: String[] = []
     @Input() tapeHeadPosition: Number = 8
+    speedRange: number = 10
+    stepNumber: number = 0
 
     constructor(private httpService: HttpService) {
     }
@@ -86,6 +88,48 @@ export class SettingsComponent {
 
     changeMode(mode: String) {
         this.mode = mode
+        if (mode == 'standard') {
+            let stepButton = document.getElementById('step-button')
+            // @ts-ignore
+            stepButton.setAttribute('class', 'hide')
+            let speedRangeLabel = document.getElementById('speed-range-label')
+            // @ts-ignore
+            speedRangeLabel.setAttribute('class', '')
+            let speedRange = document.getElementById('speed-range')
+            // @ts-ignore
+            speedRange.setAttribute('class', '')
+            let speedRangeOutput = document.getElementById('speed-range-output')
+            // @ts-ignore
+            speedRangeOutput.setAttribute('class', '')
+        }
+        else if (mode == 'fast') {
+            let stepButton = document.getElementById('step-button')
+            // @ts-ignore
+            stepButton.setAttribute('class', 'hide')
+            let speedRangeLabel = document.getElementById('speed-range-label')
+            // @ts-ignore
+            speedRangeLabel.setAttribute('class', 'hide')
+            let speedRange = document.getElementById('speed-range')
+            // @ts-ignore
+            speedRange.setAttribute('class', 'hide')
+            let speedRangeOutput = document.getElementById('speed-range-output')
+            // @ts-ignore
+            speedRangeOutput.setAttribute('class', 'hide')
+        }
+        else {
+            let stepButton = document.getElementById('step-button')
+            // @ts-ignore
+            stepButton.setAttribute('class', '')
+            let speedRangeLabel = document.getElementById('speed-range-label')
+            // @ts-ignore
+            speedRangeLabel.setAttribute('class', 'hide')
+            let speedRange = document.getElementById('speed-range')
+            // @ts-ignore
+            speedRange.setAttribute('class', 'hide')
+            let speedRangeOutput = document.getElementById('speed-range-output')
+            // @ts-ignore
+            speedRangeOutput.setAttribute('class', 'hide')
+        }
     }
 
     onOperandChange() {
@@ -94,12 +138,38 @@ export class SettingsComponent {
             if ((i >= 3 && i < 3 + this.operand1.valueOf()) ||
                 (i >= 3 + 1 + this.operand1.valueOf() && i < 3 + 1 + this.operand1.valueOf() + this.operand2.valueOf())) {
                 // @ts-ignore
-                tapeElement.value = this.symbols[0]
+                tapeElement.value = this.symbols[1]
             } else {
                 // @ts-ignore
                 tapeElement.value = '_'
             }
             i++
+        }
+    }
+
+    nextStep() {
+        let x = this.steps[this.stepNumber]
+        let element, tapeScope, combobox
+        element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
+        tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
+        combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+        if (element && tapeScope && combobox) {
+            element.setAttribute('class', '')
+            tapeScope.setAttribute('class', 'tape-element-scope')
+            // @ts-ignore
+            combobox.value = x.newSymbol
+        }
+
+        this.stepNumber++
+        x = this.steps[this.stepNumber]
+        element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
+        tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
+        combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+        if (element && tapeScope && combobox) {
+            element.setAttribute('class', 'selected')
+            tapeScope.setAttribute('class', 'tape-element-scope selected')
+            // @ts-ignore
+            combobox.value = x.newSymbol
         }
     }
 
@@ -112,32 +182,43 @@ export class SettingsComponent {
             this.tapeElements.push(tapeElement.value)
             i++
         }
-        console.log("Элементы ленты" + this.tapeElements)
-
         let element, tapeScope, combobox
-        (async () => {
-            for (const x of this.steps) {
-                console.log("step:" + x)
-                console.log("col:" + (x.col - 1))
-                console.log("row:" + x.row)
-                console.log("newState:" + x.tapeHeadPosition)
-                console.log("newSymbol:" + x.newSymbol)
-                element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
-                console.log(element)
-                tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
-                console.log(tapeScope)
-                combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
-                console.log(combobox)
-                if (element && tapeScope && combobox) {
-                    element.setAttribute('class', 'selected')
-                    tapeScope.setAttribute('class', 'tape-element-scope selected')
-                    await this.sleep(1000);
-                    element.setAttribute('class', '')
-                    tapeScope.setAttribute('class', 'tape-element-scope')
-                    // @ts-ignore
-                    combobox.value = x.newSymbol
+        console.log("Элементы ленты" + this.tapeElements)
+        if (this.mode!= 'step-by-step') {
+            (async () => {
+                for (const x of this.steps) {
+                    element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
+                    tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
+                    combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+                    if (element && tapeScope && combobox) {
+                        element.setAttribute('class', 'selected')
+                        tapeScope.setAttribute('class', 'tape-element-scope selected')
+                        if (this.mode == 'fast'){
+                            await this.sleep(1);
+                        }
+                        else if (this.mode == 'standard'){
+                            await this.sleep(100 * this.speedRange);
+                        }
+                        element.setAttribute('class', '')
+                        tapeScope.setAttribute('class', 'tape-element-scope')
+                        // @ts-ignore
+                        combobox.value = x.newSymbol
+                    }
                 }
+            })();
+        } else {
+            this.stepNumber = 1;
+            const x = this.steps[this.stepNumber]
+            element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
+            tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
+            combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+            if (element && tapeScope && combobox) {
+                element.setAttribute('class', 'selected')
+                tapeScope.setAttribute('class', 'tape-element-scope selected')
+                // @ts-ignore
+                combobox.value = x.newSymbol
             }
-        })();
+        }
+
     }
 }
