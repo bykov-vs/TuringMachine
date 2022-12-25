@@ -17,9 +17,20 @@ public class Algorithm {
 
     @ManyToOne
     @JoinColumn(name = "id_alphabet")
-    private Alphabet alphabet;
+    private Alphabet alphabetEntity;
+
+    @Transient
+    private List<Symbol> alphabet;
 
     @Transient
     private List<Command> commands;
 
+    @Transient
+    private String tape;
+
+    @Transient
+    private Long numberOfStates;
+
+    @Transient
+    private int tapeHeadPosition;
 }

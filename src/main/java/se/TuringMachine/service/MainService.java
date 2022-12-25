@@ -19,7 +19,7 @@ public class MainService {
     private final SymbolService symbolService;
 
     public void saveAlgorithm(Algorithm algorithm){
-        Alphabet alphabet = algorithm.getAlphabet();
+        Alphabet alphabet = algorithm.getAlphabetEntity();
         Set<Symbol> symbols = alphabet.getSymbol();
         for (Symbol symbol : symbols) {
             symbolService.save(symbol);

@@ -3,9 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {HttpService} from "./HttpService";
 import {TapeComboboxComponent} from "./tape-combobox.component";
+import {Command} from "./components/alg-table/command";
 
 let tapeLength = 0;
-let tapeHeadPosition = 8;
 
 @Component({
     selector: 'app-root',
@@ -15,9 +15,12 @@ let tapeHeadPosition = 8;
 })
 
 export class AppComponent implements OnInit {
-    symbols: string[] = ["0", "1", "+"]
+    symbols: string[] = ["_", "0", "1", "+"]
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>
+
+    commands!: Command[];
+    tapeHeadPosition = 8;
 
     steps: any = [
         {
@@ -244,7 +247,9 @@ export class AppComponent implements OnInit {
         },
     ]
 
-
+    setCommands(newCommands: Command[]) {
+        this.commands = newCommands;
+    }
 
     addChild() {
         ++tapeLength
@@ -295,7 +300,7 @@ export class AppComponent implements OnInit {
     initTapeHeadPosition() : Promise<void> {
         return new Promise((resolve) => {
             setTimeout(()=> {
-                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                let tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
                 if (tapeScope) {
                     tapeScope.setAttribute('class', 'tape-element-scope selected')
                 }
@@ -310,14 +315,14 @@ export class AppComponent implements OnInit {
 
     moveLeftTapeHead() {
         (async () => {
-            if (tapeHeadPosition > 1) {
-                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+            if (this.tapeHeadPosition > 1) {
+                let tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
                 if (tapeScope) {
                     tapeScope.setAttribute('class', 'tape-element-scope')
                 }
                 await this.sleep(100);
-                tapeHeadPosition--;
-                tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                this.tapeHeadPosition--;
+                tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
                 if (tapeScope) {
                     tapeScope.setAttribute('class', 'tape-element-scope selected')
                 }
@@ -327,14 +332,14 @@ export class AppComponent implements OnInit {
 
     moveRightTapeHead() {
         (async () => {
-            if (tapeHeadPosition < tapeLength) {
-                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+            if (this.tapeHeadPosition < tapeLength) {
+                let tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
                 if (tapeScope) {
                     tapeScope.setAttribute('class', 'tape-element-scope')
                 }
                 await this.sleep(100);
-                tapeHeadPosition++;
-                tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                this.tapeHeadPosition++;
+                tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
                 if (tapeScope) {
                     tapeScope.setAttribute('class', 'tape-element-scope selected')
                 }

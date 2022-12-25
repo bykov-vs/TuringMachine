@@ -1,4 +1,4 @@
-import { Component, Input, Inject, AfterViewInit, OnInit } from '@angular/core';
+import {Component, Input, Inject, AfterViewInit, OnInit, Output, EventEmitter} from '@angular/core';
 import { Command } from './command';
 
 @Component({
@@ -25,6 +25,7 @@ export class AlgTableComponent implements OnInit{
   newSymbol : String = ""
   nextState : Number = 0
 
+  @Output() newItemEvent = new EventEmitter<Command[]>();
   commands : Command[] | undefined
 
   ngOnInit(): void {
@@ -60,18 +61,19 @@ export class AlgTableComponent implements OnInit{
     }
     if (this.type == 2){
       this.type = 0
-      this.nextState = event.target.value
-      this.state = this.states[this.cellCol]
-      this.symbol = this.symbols[this.cellRow]
+      this.nextState = parseInt(event.target.value)
+      this.state = this.states[this.cellRow]
+      this.symbol = this.symbols[this.cellCol]
 
       let command : Command = {
         move: this.move,
         newSymbol: this.newSymbol,
-        state: this.state,
-        nextState: this.nextState,
+        state: (this.state.valueOf() - 1),
+        nextState: this.nextState.valueOf() - 1,
         symbol: this.symbol
       }
       this.commands?.push(command)
+      this.newItemEvent.emit(this.commands)
 
       this.isOpen = false
       this.cellsValues[this.cellRow][this.cellCol] = this.command

@@ -23,9 +23,11 @@ public class Command {
     @JoinColumn(name = "id_algorithm")
     private Algorithm algorithm;
 
+    private Character symbol;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_symbol")
-    private Symbol symbol;
+    private Symbol symbolEntity;
 
     @Override
     public String toString() {
@@ -35,6 +37,7 @@ public class Command {
                 ", newSymbol=" + newSymbol +
                 ", nextState=" + nextState +
                 ", state=" + state +
+                ", symbol=" + symbol +
                 '}';
     }
 }

@@ -19,10 +19,10 @@
               </div>
           </div>
           <app-alphabet [symbols] = "symbols"></app-alphabet>
-          <app-alg-table  [symbols] = "symbols"></app-alg-table>
+          <app-alg-table  (newItemEvent)="setCommands($event)" [symbols] = "symbols"></app-alg-table>
       </div>
       
-      <app-settings [symbols] = "symbols" class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
+      <app-settings [symbols] = "symbols" [commands]="commands" [tapeHeadPosition]="tapeHeadPosition" class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
       
   </div>
   
