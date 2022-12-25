@@ -22,7 +22,7 @@
           <app-alg-table  [symbols] = "symbols"></app-alg-table>
       </div>
       
-      <app-settings class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
+      <app-settings [symbols] = "symbols" class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
       
   </div>
   
