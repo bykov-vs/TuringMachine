@@ -36,7 +36,6 @@ public class AlgorithmController {
 
     @PostMapping("/execute")
     public ResponseEntity<?> executeAlgorithm(@RequestBody Algorithm algorithm){
-        System.out.println(algorithm.getCommands().size() + "===============");
         ResultTapeDTO resultTapeDTO = executeService.execute(algorithm, algorithm.getTape());
         return new ResponseEntity<>(resultTapeDTO, HttpStatus.OK);
     }
