@@ -1,6 +1,5 @@
 package se.TuringMachine;
 
-import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,21 +38,21 @@ class TuringMachineApplicationTests {
 		command1.setNewSymbol('1');
 		command1.setState(0);
 		command1.setNextState(0);
-		command1.setSymbol(s1);
+		command1.setSymbolEntity(s1);
 
 		command2.setAlgorithm(algorithm);
 		command2.setState(0);
 		command2.setNewSymbol('1');
 		command2.setNextState(0);
 		command2.setMove("П");
-		command2.setSymbol(s2);
+		command2.setSymbolEntity(s2);
 
 		Command command3 = new Command();
 		command3.setAlgorithm(algorithm);
 		command3.setMove("Н");
 		command3.setState(0);
 		command3.setNextState(1);
-		command3.setSymbol(s3);
+		command3.setSymbolEntity(s3);
 
 		ArrayList<Command> list = new ArrayList<>();
 		list.add(command1);

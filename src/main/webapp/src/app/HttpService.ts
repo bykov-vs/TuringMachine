@@ -12,6 +12,6 @@ export class HttpService {
     }
 
     executeAlgorithm(request : any){
-        return this.http.post('http://localhost:8080/execute', request)
+        return this.http.post('http://localhost:8080/algorithm/execute', request)
     }
 }

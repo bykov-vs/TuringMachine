@@ -2,24 +2,21 @@ package se.TuringMachine.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import se.TuringMachine.dto.ResultTapeDTO;
+import se.TuringMachine.dto.TrackStep;
 import se.TuringMachine.entity.Algorithm;
 import se.TuringMachine.entity.Command;
 import se.TuringMachine.exception.InvalidStateException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ExecuteService {
-    @AllArgsConstructor
-    class TrackStep {
-        private int col;
-        private int row;
-        private int newState;
-        private char newSymbol;
-    }
 
-    public Map<List<TrackStep>, Integer> execute(Algorithm algorithm, String tape) {
+    public ResultTapeDTO execute(Algorithm algorithm, String tape) {
 
         List<Command> commands = algorithm.getCommands();
 
@@ -30,27 +27,32 @@ public class ExecuteService {
         for (char symbol : symbols) {
             dynamicTape.append(symbol);
         }
-        int indexOfSymbol = 0;
+        int indexOfSymbol = algorithm.getTapeHeadPosition();
         int MAX_ITERS = 1000;
         int iters = 0;
         int indexOfState = 0;
         Command currentCommand = null;
         List<TrackStep> track = new ArrayList<>();
-        Map<List<TrackStep>, Integer> result = new HashMap<>();
 
         while (indexOfState < states.size() && iters < MAX_ITERS) {
             iters++;
             if (indexOfSymbol < 0) {
                 indexOfSymbol++;
-                dynamicTape.insert(indexOfState, " ");
+                dynamicTape.insert(indexOfSymbol, "_");
             }
             if (indexOfSymbol >= dynamicTape.length()) {
-                dynamicTape.append(" ");
+                dynamicTape.append("_");
             }
             char currentSymbol = dynamicTape.charAt(indexOfSymbol);
             //char currentSymbol = indexOfSymbol < 0 || indexOfSymbol >= symbols.length ? ' ': symbols[indexOfSymbol];
             currentCommand = getCurrentCommand(states.get(indexOfState), currentSymbol);
             int prevState = indexOfState;
+            System.out.println(indexOfState);
+            System.out.println(algorithm.getNumberOfStates());
+            if (indexOfState >= algorithm.getNumberOfStates()){
+                track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
+                break;
+            }
             if (currentCommand == null)
                 throw new InvalidStateException();
             if (currentCommand.getNextState() != -1)
@@ -64,16 +66,27 @@ public class ExecuteService {
                 case "П" -> indexOfSymbol++;
             }
 
-            track.add(new TrackStep(prevState, currentSymbol, indexOfState, currentCommand.getNewSymbol()));
+            track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
 
             //Добавить проверки на зацикливание программы и невозможное состояние (из которого нельзя выйти)
             //Добавить выход из цикла (состояние остановки???)
             //если indexOfSymbol отрицательный или больше длины ленты, то currentSymbol = ""?
             //ДОБАВИТЬ ТРАССИРОВКУ (????)
         }
-        result.put(track, dynamicTape.length());
+        ResultTapeDTO result = new ResultTapeDTO();
+        result.setTrackSteps(track);
+        result.setTapeLength(dynamicTape.length());
         return result;
 
+    }
+
+    private int getRowByCharacter(Algorithm algorithm, char currentSymbol) {
+        for (int i = 0; i < algorithm.getAlphabet().size(); i++) {
+            if (algorithm.getAlphabet().get(i).getName() == currentSymbol){
+                return i + 1;
+            }
+        }
+        return 0;
     }
 
     private List<List<Command>> groupCommandsByStates(List<Command> commands) {
@@ -100,7 +113,7 @@ public class ExecuteService {
     private Command getCurrentCommand(List<Command> commands, char currentSymbol) {
         for (Command command : commands) {
             System.out.println(command);
-            if (command.getSymbol().getName().equals(currentSymbol)) {
+            if (command.getSymbol().equals(currentSymbol)) {
                 return command;
             }
         }

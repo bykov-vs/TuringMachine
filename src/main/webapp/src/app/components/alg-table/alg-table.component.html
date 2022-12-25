@@ -7,7 +7,7 @@
     </ul>
     <ul *ngFor="let state of states | slice:0:states.length-1; index as i " class="column">
         <li class="column-header">Q{{i+1}}</li>
-        <li *ngFor="let symbol of symbols; index as j">
+        <li *ngFor="let symbol of symbols; index as j" id="col-{{i}}-row-{{j}}">
             <input [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"  
                 (click)="showList(i, j)" 
                 onkeypress="return false;">

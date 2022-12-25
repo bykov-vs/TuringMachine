@@ -8,7 +8,6 @@ import {HttpService} from "./HttpService";
             <p class="label">{{label}}</p>
             <div class="tape-element">
                 <select class="label" id="tape-element-{{id}}">
-                    <option>_</option>
                     <option *ngFor="let symbol of symbols" [value]="symbol">{{symbol}}</option>
                 </select>
             </div>
