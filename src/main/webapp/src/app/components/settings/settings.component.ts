@@ -12,26 +12,46 @@ import {HttpService} from "../../HttpService";
 export class SettingsComponent {
   steps : any = []
   @Output() taleLengthChange = new EventEmitter<Event>()
-
+  trace : any 
   operand1 : Number = 0
   operand2 : Number = 0
   mode : String = "standard"
+  tapeLength : number = 0
   @Input() commands : Command[] = []
   @Input() _symbols : String[] = []
 
   constructor(private httpService: HttpService) {
   }
 
-  createRequest(){
+  createRequest() : any{
     let symbols = []
     let name : String = "test_alg"
     let tapeLength : number = 3
-    let firstOperand : String = this.operand1.toString()
-    let secondOperator : String = this.operand2.toString()
+    let firstOperand : string = this.operand1.toString()
+    let secondOperand : string = this.operand2.toString()
+    let tape : String = firstOperand+secondOperand
     for (let x of this._symbols){
       symbols.push({"name":x})
     }
     let alphabet = {"alphabet":symbols}
+    let request : any = {
+      "name": name,
+      "tapeLength": tapeLength,
+      "tape": tape,
+      "alphabet": alphabet,
+      "commands": this.commands
+    }
+    return request
+  }
+
+  execute(){
+    let request : any = this.createRequest()
+    this.httpService.executeAlgorithm(request)
+      .subscribe((data : any) => {
+        this.trace = data.trace
+        this.tapeLength = data.tapeLength
+      })
+    this.runAlgorithm()
   }
 
   sleep(ms: any) {
@@ -49,7 +69,7 @@ export class SettingsComponent {
   runAlgorithm() {
     let element, tapeScope, combobox
     (async () => {
-        for (const x of this.steps) {
+        for (const x of this.trace) {
             element = document.getElementById('col-' + x.col + '-row-' + x.row)
             tapeScope = document.getElementById('tape-element-scope-' + x.tape)
             combobox = document.getElementById('tape-element-' + x.tape)

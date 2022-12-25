@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.TuringMachine.dto.TestDTO;
 import se.TuringMachine.entity.Algorithm;
+import se.TuringMachine.service.ExecuteService;
 import se.TuringMachine.service.MainService;
 
 @CrossOrigin
@@ -14,6 +15,7 @@ import se.TuringMachine.service.MainService;
 @AllArgsConstructor
 public class AlgorithmController {
     private final MainService service;
+    private final ExecuteService executeService;
 
     @PostMapping("/save")
     public ResponseEntity<?> saveAlgorithm(@RequestBody Algorithm algorithm){
@@ -27,6 +29,11 @@ public class AlgorithmController {
         return algorithm != null ?
                 new ResponseEntity<>(algorithm, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/execute")
+    public ResponseEntity<?> executeAlgorithm(@RequestBody Algorithm algorithm, @RequestBody String tape){
+        return new ResponseEntity<>(executeService.execute(algorithm, tape), HttpStatus.OK);
     }
 
     @GetMapping("/")

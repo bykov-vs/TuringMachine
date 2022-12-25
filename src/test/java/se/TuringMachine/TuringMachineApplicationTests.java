@@ -66,6 +66,6 @@ class TuringMachineApplicationTests {
 		tape.setFirstOperand("010");
 		tape.setSecondOperand("101");
 		tape.setSign("");
-		executeService.execute(algorithm, tape);
+		executeService.execute(algorithm, tape.toString());
 	}
 }
