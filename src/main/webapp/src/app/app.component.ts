@@ -5,6 +5,7 @@ import {HttpService} from "./HttpService";
 import {TapeComboboxComponent} from "./tape-combobox.component";
 
 let tapeLength = 0;
+let tapeHeadPosition = 8;
 
 @Component({
     selector: 'app-root',
@@ -283,21 +284,74 @@ export class AppComponent implements OnInit {
         // this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
     }
 
-    createTape() {
-        for (let i = 0; i < 16; i++){
-            this.addChild()
-        }
+    createTape() : Promise<any> {
+        return new Promise((resolve) => {
+            for (let i = 0; i < 16; i++) {
+                this.addChild()
+            }
+        })
+    }
+
+    initTapeHeadPosition() : Promise<void> {
+        return new Promise((resolve) => {
+            setTimeout(()=> {
+                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                if (tapeScope) {
+                    tapeScope.setAttribute('class', 'tape-element-scope selected')
+                }
+                resolve();
+            }, 200);
+        })
+    }
+
+    sleep(ms: any) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    moveLeftTapeHead() {
+        (async () => {
+            if (tapeHeadPosition > 1) {
+                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                if (tapeScope) {
+                    tapeScope.setAttribute('class', 'tape-element-scope')
+                }
+                await this.sleep(100);
+                tapeHeadPosition--;
+                tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                if (tapeScope) {
+                    tapeScope.setAttribute('class', 'tape-element-scope selected')
+                }
+            }
+        })();
+    }
+
+    moveRightTapeHead() {
+        (async () => {
+            if (tapeHeadPosition < tapeLength) {
+                let tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                if (tapeScope) {
+                    tapeScope.setAttribute('class', 'tape-element-scope')
+                }
+                await this.sleep(100);
+                tapeHeadPosition++;
+                tapeScope = document.getElementById('tape-element-scope-' + tapeHeadPosition)
+                if (tapeScope) {
+                    tapeScope.setAttribute('class', 'tape-element-scope selected')
+                }
+            }
+        })();
     }
 
     ngAfterViewInit() {
         (async () => {
-            this.createTape()
-            let tapeScope = document.getElementById('tape-element-scope-10')
-            console.log(tapeScope)
-            if (tapeScope) {
-                tapeScope.setAttribute('class', 'tape-element-scope selected')
-            }
+            await new Promise<void>(resolve => {
+                setTimeout(()=> {
+                    this.createTape();
+                    resolve();
+                }, 200);
+            }).then(() => {
+                this.initTapeHeadPosition()
+            });
         })()
-
     }
 }

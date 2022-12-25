@@ -7,8 +7,16 @@
   <hr>
   <div class="main row">
       <div class="algorithm">
-          <div class="tape">
-              <ng-template #viewContainerRef></ng-template>
+          <div class="tape-scope">
+              <div class="tape-button">
+                  <button (click)="moveLeftTapeHead()" id="tape-button-left">←</button>
+              </div>
+              <div class="tape">
+                  <ng-template #viewContainerRef></ng-template>
+              </div>
+              <div class="tape-button">
+                  <button (click)="moveRightTapeHead()" id="tape-button-right">→</button>
+              </div>
           </div>
           <app-alphabet [symbols] = "symbols"></app-alphabet>
           <app-alg-table  [symbols] = "symbols"></app-alg-table>
