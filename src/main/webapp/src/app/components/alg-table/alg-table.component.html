@@ -6,8 +6,16 @@
         </li>
     </ul>
     <ul *ngFor="let state of states | slice:0:states.length-1; index as i " class="column">
-        <li class="column-header">Q{{i+1}}</li>
-        <li *ngFor="let symbol of symbols; index as j">
+        <li class="column-header">
+            <span>Q{{i+1}}</span>
+            <div class="buttons-wrapper">
+                <button (click)="insertColumnLeft(i)">left</button> 
+                <button (click)="deleteColumn(i)">delete</button>
+                <button (click)="insertColumnRight(i)">right</button>
+            </div>
+            
+        </li>
+        <li *ngFor="let symbol of symbols; index as j" >
             <input id="col-{{i}}-row-{{j}}" [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"
                 (click)="showList(i, j)" 
                 onkeypress="return false;">

@@ -12,7 +12,7 @@ export class AlgTableComponent implements OnInit{
   @Input() 
   symbols : String[] = []
   command : String = ""
-  states : Number[] = [1, 2, 3, 4]
+  states : number[] = [1, 2, 3, 4]
   isOpen : boolean = false
   type : number = 0
   cells : boolean[][] = [[]]
@@ -32,6 +32,46 @@ export class AlgTableComponent implements OnInit{
 
   ngOnInit(): void {
     this.commands = new Array(0);
+    this.cells = new Array(this.states.length)
+      for (let i = 0; i < this.cells.length; i++){
+        this.cells[i] = new Array(this.symbols.length).fill(false)
+      }
+
+      this.cellsValues = new Array(this.states.length)
+      for (let i = 0; i < this.cellsValues.length; i++){
+        this.cellsValues[i] = new Array(this.symbols.length).fill("")
+      }
+  }
+
+  insertColumnLeft(i : number){
+    if (i == 0){
+      return
+    }
+    this.states.splice(i-1, 0, i)
+    for (let j = i;  j < this.states.length; j++){
+      this.states[j] += 1
+    }
+    this.changeCells()
+  }
+  insertColumnRight(i : number){
+    this.states.splice(i+1, 0, i+1)
+    for (let j = i;  j < this.states.length; j++){
+      this.states[j] += 1
+    }
+    console.log(this.states)
+    this.changeCells()
+  }
+
+  deleteColumn(i : number){
+    if (i > -1) { 
+      this.states.splice(i, 1);
+    }
+    for (let j = i;  j < this.states.length; j++){
+      this.states[j] -= 1
+    }
+    this.changeCells()
+  }
+  changeCells(){
     this.cells = new Array(this.states.length)
       for (let i = 0; i < this.cells.length; i++){
         this.cells[i] = new Array(this.symbols.length).fill(false)
