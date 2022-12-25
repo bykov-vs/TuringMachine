@@ -33,15 +33,35 @@
     width: 70%;
 }
 
+.tape-scope {
+    width: 100%;
+}
+
+.tape-button {
+    display:inline;
+    width: 3%;
+    min-height: 100px;
+}
+
 .tape {
-    margin-left: 5%;
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    /*overflow: hidden;*/
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 100px;
+    width: 94%;
 }
 
 .tape-element-scope {
-    flex: 1;
-    width: available;
+    /*flex: 1;*/
+    width: 37px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .tape-element {
@@ -50,11 +70,14 @@
 }
 
 .tape-element-scope .label {
+    -webkit-appearance: none;
+    -moz-appearance: none;
     text-align: center;
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
+    width: 100%;
 }
 
 .settings {
