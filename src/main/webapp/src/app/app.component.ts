@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>
 
-    commands!: Command[];
+    cellValues: Command[][] = [[]]
     tapeHeadPosition = 8;
     numberOfStates: number = 3;
 
@@ -248,8 +248,8 @@ export class AppComponent implements OnInit {
         },
     ]
 
-    setCommands(newCommands: Command[]) {
-        this.commands = newCommands;
+    setCommands(newCommands: Command[][]) {
+        this.cellValues = newCommands;
     }
 
     setNumberOfStates(newNumberOfStates: number) {

@@ -18,10 +18,11 @@ export class SettingsComponent {
     operand2: Number = 0
     mode: String = "standard"
     tapeLength: number = 0
-    @Input() commands: Command[] = []
+    commands: Command[] = []
     @Input() symbols: String[] = []
     @Input() tapeHeadPosition: Number = 8
     @Input() numberOfStates: number = 3
+    @Input() cellValues: Command[][] = [[]]
     speedRange: number = 10
     stepNumber: number = 0
 
@@ -47,6 +48,13 @@ export class SettingsComponent {
         // }
         for (let x of this.symbols) {
             symbols.push({"name": x})
+        }
+        for (let i = 0; i < this.cellValues.length; i++){
+            for (let j = 0; j < this.cellValues[i].length; j++){
+                if (this.cellValues[i][j] !== null){
+                    this.commands.push(this.cellValues[i][j])
+                }
+            }
         }
         console.log(this.commands)
         let alphabet = {"alphabet": symbols}

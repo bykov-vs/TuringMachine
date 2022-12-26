@@ -22,7 +22,7 @@
           <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" [symbols] = "symbols"></app-alg-table>
       </div>
       
-      <app-settings [symbols] = "symbols" [commands]="commands" [tapeHeadPosition]="tapeHeadPosition" [numberOfStates]="numberOfStates" class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
+      <app-settings [symbols] = "symbols" [cellValues]="cellValues" [tapeHeadPosition]="tapeHeadPosition" [numberOfStates]="numberOfStates" class="settings" (taleLengthChange)="onTapeLengthChange($event)"></app-settings>
       
   </div>
   

@@ -16,7 +16,8 @@
             
         </li>
         <li *ngFor="let symbol of symbols; index as j" >
-            <input id="col-{{i}}-row-{{j}}" [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"
+            <input id="col-{{i}}-row-{{j}}" 
+                [value]="setCellValue(i, j)" type="text"
                 (click)="showList(i, j)" 
                 onkeypress="return false;">
             <div *ngIf="((isOpen) && (type == 0) && (cells[i][j]))" (click)="increaseType($event)" class="dropdown-content">
