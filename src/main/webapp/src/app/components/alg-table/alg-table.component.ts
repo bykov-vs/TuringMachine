@@ -77,6 +77,7 @@ export class AlgTableComponent implements OnInit {
     }
 
     changeCells() {
+
         let cellValues = this.cellsValues
         this.cells = new Array(this.symbols.length)
         for (let i = 0; i < this.cells.length; i++) {
@@ -86,22 +87,28 @@ export class AlgTableComponent implements OnInit {
         this.cellsValues = new Array(this.symbols.length)
         for (let i = 0; i < this.cellsValues.length; i++) {
             this.cellsValues[i] = new Array(this.states.length).fill(null)
-            for (let j = 0; j < this.cellsValues.length; j++){
+            let minSize = Math.min(this.cellsValues[i].length, cellValues.length)
+            for (let j = 0; j < minSize; j++){
                 this.cellsValues[i][j] = cellValues[i][j]
             }
         }
-        console.log(this.cellsValues.length)
-        console.log(this.cellsValues[0].length)
+        /*
+        console.log("states = " + this.states.length)
+        console.log("symbols = " + this.symbols.length)
+        console.log("строк"+this.cellsValues.length)
+        console.log("столбцов"+this.cellsValues[0].length)
+        console.log(this.cellsValues)
+        */
     }
 
-    showList(i: number, j: number) {
+    showList(j: number, i: number) {
         if ((this.cellCol) != -1 && (this.cellRow != -1)) {
             this.cells[this.cellRow][this.cellCol] = false
         }
         this.isOpen = true
-        this.cells[i][j] = true
-        this.cellRow = i
-        this.cellCol = j
+        this.cells[j][i] = true
+        this.cellRow = j
+        this.cellCol = i
     }
 
     increaseType(event: any) {
@@ -115,8 +122,8 @@ export class AlgTableComponent implements OnInit {
         if (this.type == 2) {
             this.type = 0
             this.nextState = parseInt(event.target.value)
-            this.state = this.states[this.cellRow]
-            this.symbol = this.symbols[this.cellCol]
+            this.state = this.states[this.cellCol]
+            this.symbol = this.symbols[this.cellRow]
 
             let command: Command = {
                 move: this.move,
@@ -136,12 +143,11 @@ export class AlgTableComponent implements OnInit {
         this.type++
     }
 
-    setCellValue(i : number, j : number){
-        console.log(this.cellsValues)
-        if (this.cellsValues[i][j] !== null){
-            return this.cellsValues[i][j].newSymbol + " " +
-                this.cellsValues[i][j].move + " " +
-                (this.cellsValues[i][j].nextState+1) + " ";
+    setCellValue(j : number, i : number){
+        if (this.cellsValues[j][i] !== null){
+            return this.cellsValues[j][i].newSymbol + " " +
+                this.cellsValues[j][i].move + " " +
+                (this.cellsValues[j][i].nextState+1) + " ";
         }
         else{
             return ''
