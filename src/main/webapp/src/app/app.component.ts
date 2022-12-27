@@ -1,4 +1,4 @@
-import {Component, ComponentRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentRef, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {HttpService} from "./HttpService";
@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
     cellValues: Command[][] = [[]]
     tapeHeadPosition = 8;
     numberOfStates: number = 3;
+    tapeLen : number = 0
+
 
     steps: any = [
         {
@@ -269,18 +271,16 @@ export class AppComponent implements OnInit {
         --tapeLength
     }
 
-    onTapeLengthChange(event: any) {
-        let newTapeLength = event.target.value
+    onTapeLengthChange(tapeLen : any) {
+        let newTapeLength = tapeLen
         let oldTapeLength = tapeLength
-        if (newTapeLength >= 10 && newTapeLength <= 200){
-            if (newTapeLength > oldTapeLength ) {
-                for (let i = 0; i < newTapeLength - oldTapeLength; i++){
-                    this.addChild()
-                }
-            } else {
-                for (let i = 0; i < oldTapeLength - newTapeLength; i++){
-                    this.removeChild()
-                }
+        if (newTapeLength > oldTapeLength ) {
+            for (let i = 0; i < newTapeLength - oldTapeLength; i++){
+                this.addChild()
+            }
+        } else {
+            for (let i = 0; i < oldTapeLength - newTapeLength; i++){
+                this.removeChild()
             }
         }
     }
@@ -293,6 +293,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         // this.httpService.getData().subscribe({next: (data: any) => this.user = new User(data.name)});
     }
+
 
     createTape() : Promise<any> {
         return new Promise((resolve) => {
@@ -350,6 +351,11 @@ export class AppComponent implements OnInit {
                 }
             }
         })();
+    }
+
+    alphabetChanges(alphabet : any){
+        this.symbols = alphabet
+        console.log("it working" + this.symbols.length)
     }
 
     ngAfterViewInit() {

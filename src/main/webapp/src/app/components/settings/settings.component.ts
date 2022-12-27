@@ -11,13 +11,13 @@ import {HttpService} from "../../HttpService";
 
 export class SettingsComponent {
     steps: any = []
-    @Output() taleLengthChange = new EventEmitter<Event>()
+    @Output() tapeLengthChange = new EventEmitter<number>()
     tapeElements: Array<string> = [];
     trace: any
     operand1: Number = 0
     operand2: Number = 0
     mode: String = "standard"
-    tapeLength: number = 0
+    tapeLength: number = 16
     commands: Command[] = []
     @Input() symbols: String[] = []
     @Input() tapeHeadPosition: Number = 8
@@ -91,8 +91,15 @@ export class SettingsComponent {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    onTapeLengthChange(event: any) {
-        this.taleLengthChange.emit(event)
+    onTapeLengthChange(event : any) {
+        this.tapeLength = event.target.value
+        if (this.tapeLength < 10 ){
+            this.tapeLength = 10
+        }
+        if (this.tapeLength > 200 ){
+            this.tapeLength = 200
+        }
+        this.tapeLengthChange.emit(this.tapeLength)
     }
 
     changeMode(mode: String) {
@@ -143,6 +150,18 @@ export class SettingsComponent {
 
     onOperandChange() {
         let tapeElement, i = 1;
+        if (this.operand1 < 1){
+            this.operand1 = 1
+        }
+        if (this.operand1 > 10){
+            this.operand1 = 10
+        }
+        if (this.operand2 < 1){
+            this.operand2 = 1
+        }
+        if (this.operand2 > 10){
+            this.operand2 = 10
+        }
         while (tapeElement = document.getElementById('tape-element-' + i)) {
             if ((i >= 3 && i < 3 + this.operand1.valueOf()) ||
                 (i >= 3 + 1 + this.operand1.valueOf() && i < 3 + 1 + this.operand1.valueOf() + this.operand2.valueOf())) {

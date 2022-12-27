@@ -6,7 +6,7 @@
                     [value]="symbol"
                     id={{i}}
                     (change)="changeSymbol($event)">
-            <button id={{i}} (click)="deleteSymbol($event)">Удалить</button>
+            <button *ngIf="i != 0" id={{i}} (click)="deleteSymbol($event)">Удалить</button>
         </div>
         <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
 

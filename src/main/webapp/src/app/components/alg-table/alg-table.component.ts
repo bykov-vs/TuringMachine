@@ -1,4 +1,4 @@
-import {Component, Input, Inject, AfterViewInit, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Command} from './command';
 import {ViewEncapsulation} from '@angular/core';
 
@@ -8,9 +8,9 @@ import {ViewEncapsulation} from '@angular/core';
     styleUrls: ['./alg-table.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AlgTableComponent implements OnInit {
-    @Input()
-    symbols: String[] = []
+export class AlgTableComponent implements OnInit, OnChanges{
+    @Input() symbols: String[] = []
+    @Input() symbolsLength : number = 0
     command: String = ""
     states: number[] = [1, 2, 3, 4]
     isOpen: boolean = false
@@ -31,8 +31,11 @@ export class AlgTableComponent implements OnInit {
     commands: Command[] | undefined
     @Output() newNumberOfStates = new EventEmitter<number>();
 
+    constructor() {}
+
     ngOnInit(): void {
         this.commands = new Array(0);
+        
         this.cells = new Array(this.states.length)
         for (let i = 0; i < this.cells.length; i++) {
             this.cells[i] = new Array(this.symbols.length).fill(false)
@@ -42,6 +45,10 @@ export class AlgTableComponent implements OnInit {
         for (let i = 0; i < this.cellsValues.length; i++) {
             this.cellsValues[i] = new Array(this.symbols.length).fill(null)
         }
+    }
+    
+    ngOnChanges(changes: SimpleChanges): void {
+        this.changeCells()
     }
 
     insertColumnLeft(i: number) {
@@ -77,7 +84,7 @@ export class AlgTableComponent implements OnInit {
     }
 
     changeCells() {
-
+        console.log(this.symbols.length)
         let cellValues = this.cellsValues
         this.cells = new Array(this.symbols.length)
         for (let i = 0; i < this.cells.length; i++) {
@@ -85,10 +92,14 @@ export class AlgTableComponent implements OnInit {
         }
 
         this.cellsValues = new Array(this.symbols.length)
-        for (let i = 0; i < this.cellsValues.length; i++) {
+        let minSize = Math.min(this.cellsValues.length, cellValues.length)
+        for (let i = 0; i < this.cellsValues.length; i++){
             this.cellsValues[i] = new Array(this.states.length).fill(null)
-            let minSize = Math.min(this.cellsValues[i].length, cellValues.length)
-            for (let j = 0; j < minSize; j++){
+        }
+        for (let i = 0; i < minSize; i++) {
+            this.cellsValues[i] = new Array(this.states.length).fill(null)
+            let minSizeJ = Math.min(this.cellsValues[i].length, cellValues[0].length)
+            for (let j = 0; j < minSizeJ; j++){
                 this.cellsValues[i][j] = cellValues[i][j]
             }
         }
@@ -113,6 +124,7 @@ export class AlgTableComponent implements OnInit {
 
     increaseType(event: any) {
         this.command += event.target.value
+        console.log(this.symbols)
         if (this.type == 0) {
             this.newSymbol = event.target.value
         }
@@ -144,6 +156,10 @@ export class AlgTableComponent implements OnInit {
     }
 
     setCellValue(j : number, i : number){
+
+        console.log("\nin:" +this.symbols.length + "-" + this.states.length)
+        console.log("out:" +this.cellsValues.length + "-" + this.cellsValues[0].length)
+
         if (this.cellsValues[j][i] !== null){
             return this.cellsValues[j][i].newSymbol + " " +
                 this.cellsValues[j][i].move + " " +

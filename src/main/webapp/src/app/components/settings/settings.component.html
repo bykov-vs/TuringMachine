@@ -2,7 +2,7 @@
     <p>Параметры запуска:</p>
     <div class="tape-length">
         <p>Длина ленты:</p>
-        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value=16>
+        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value={{tapeLength}}>
     </div>
     <div class="operand">
         <p>Операнд 1:</p>
