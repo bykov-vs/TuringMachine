@@ -18,7 +18,7 @@ public class CommandService implements DefaultService<Command>{
     }
 
     @Override
-    public Command find(Long id) {
+    public Command findById(Long id) {
         return null;
     }
 

@@ -1,34 +1,40 @@
-.alphabet{
+.alphabet {
     display: block;
-  }
+}
 
-  .alphabet > .button{
+.alphabet > .button {
     cursor: pointer;
     padding: 10px;
     width: max-content;
     text-align: left;
     margin-bottom: 10px;
     font-size: 18px;
-  }
+}
 
-  .symbol-group{
-    
-  }
+.symbol-group {
 
-  .symbol-group > button{
+}
+
+.symbol-group > button {
     margin-left: 10px;
-  }
+}
 
-  .symbol{
+.symbol {
     font-size: 16px;
     margin-bottom: 10px;
     width: max-content;
-  }
-  .symbols{
+}
+
+.symbols {
     display: flex;
     flex-direction: column;
-  }
+}
 
-  .symbols > button{
+.symbols > button {
     width: max-content;
-  }
+}
+
+.alphabet-button {
+    margin-top: 10px;
+    font-size: 18px;
+}

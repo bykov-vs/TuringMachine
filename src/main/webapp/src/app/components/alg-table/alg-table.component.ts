@@ -74,13 +74,16 @@ export class AlgTableComponent implements OnInit, OnChanges{
     }
 
     deleteColumn(i: number) {
-        if (i > -1) {
-            this.states.splice(i, 1);
+        if (this.states.length > 2) {
+            if (i > -1) {
+                this.states.splice(i, 1);
+            }
+            for (let j = i; j < this.states.length; j++) {
+                this.states[j] -= 1
+            }
+            this.changeCells()
         }
-        for (let j = i; j < this.states.length; j++) {
-            this.states[j] -= 1
-        }
-        this.changeCells()
+
     }
 
     changeCells() {
@@ -157,8 +160,8 @@ export class AlgTableComponent implements OnInit, OnChanges{
 
     setCellValue(j : number, i : number){
 
-        console.log("\nin:" +this.symbols.length + "-" + this.states.length)
-        console.log("out:" +this.cellsValues.length + "-" + this.cellsValues[0].length)
+        // console.log("\nin:" +this.symbols.length + "-" + this.states.length)
+        // console.log("out:" +this.cellsValues.length + "-" + this.cellsValues[0].length)
 
         if (this.cellsValues[j][i] !== null){
             return this.cellsValues[j][i].newSymbol + " " +
@@ -167,6 +170,20 @@ export class AlgTableComponent implements OnInit, OnChanges{
         }
         else{
             return ''
+        }
+    }
+
+    deleteCellsValue() {
+        this.commands = new Array(0);
+
+        this.cells = new Array(this.states.length)
+        for (let i = 0; i < this.cells.length; i++) {
+            this.cells[i] = new Array(this.symbols.length).fill(false)
+        }
+
+        this.cellsValues = new Array(this.states.length)
+        for (let i = 0; i < this.cellsValues.length; i++) {
+            this.cellsValues[i] = new Array(this.symbols.length).fill(null)
         }
     }
 }

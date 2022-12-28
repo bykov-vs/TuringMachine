@@ -1,0 +1,8 @@
+<div class="dialog-container">
+    <h1>Выберите алфавит</h1>
+    <div *ngFor="let m of data; index as i">
+        <a (click)="downloadAlphabet(m.alphabet)">{{m.name}}</a>
+        <button class="delete-button" (click)="deleteAlphabet(m.id)">Удалить</button>
+    </div>
+
+</div>

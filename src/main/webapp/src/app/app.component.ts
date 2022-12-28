@@ -7,6 +7,7 @@ import {TapeComboboxComponent} from "./tape-combobox.component";
 import {Command} from "./components/alg-table/command";
 import {MatDialog} from '@angular/material/dialog';
 import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
+import {AlgTableComponent} from "./components/alg-table/alg-table.component";
 
 let tapeLength = 0;
 
@@ -14,13 +15,13 @@ let tapeLength = 0;
     selector: 'app-root',
     templateUrl: './app.component.html',
     providers: [HttpService],
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent implements OnInit {
     symbols: string[] = ["_", "0", "1", "+"]
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>
+    @ViewChild(AlgTableComponent) algTableComponent: AlgTableComponent | undefined;
 
     cellValues: Command[][] = [[]]
     tapeHeadPosition = 8;
@@ -358,6 +359,8 @@ export class AppComponent implements OnInit {
 
     alphabetChanges(alphabet : any){
         this.symbols = alphabet
+        // @ts-ignore
+        this.algTableComponent.deleteCellsValue();
         console.log("it working" + this.symbols.length)
     }
 

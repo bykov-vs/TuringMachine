@@ -18,7 +18,7 @@ public class SymbolService implements DefaultService<Symbol> {
     }
 
     @Override
-    public Symbol find(Long id) {
+    public Symbol findById(Long id) {
         return repo.findById(id).orElse(null);
     }
 

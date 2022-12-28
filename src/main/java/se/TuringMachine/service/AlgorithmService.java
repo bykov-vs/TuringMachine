@@ -17,7 +17,7 @@ public class AlgorithmService implements DefaultService<Algorithm>{
         algorithmRepo.save(algorithm);
     }
 
-    public Algorithm find(Long id) {
+    public Algorithm findById(Long id) {
         Optional<Algorithm> algorithm = algorithmRepo.findById(id);
         return algorithm.orElse(null);
     }

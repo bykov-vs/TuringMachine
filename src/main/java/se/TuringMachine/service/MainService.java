@@ -33,15 +33,12 @@ public class MainService {
     }
 
     public Algorithm findAlgorithm(Long id){
-        return algorithmService.find(id);
+        return algorithmService.findById(id);
     }
 
-    public void saveAlphabet(Alphabet alphabet){
-        if (alphabetService.find(alphabet.getId()) == null)
-            alphabetService.save(alphabet);
-    }
+
 
     public Alphabet findAlphabet(Long id){
-        return alphabetService.find(id);
+        return alphabetService.findById(id);
     }
 }

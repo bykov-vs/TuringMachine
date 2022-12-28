@@ -12,7 +12,11 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AboutSystemComponent } from './components/about-system/about-system.component';
-import { Routes, RouterModule } from '@angular/router'; 
+import { Routes, RouterModule } from '@angular/router';
+import {
+  AlphabetDownloadWindowComponent
+} from "./components/alphabet-download-window/alphabet-download-window.component";
+import {HttpService} from "./HttpService";
 /*
 const routes: Routes = [
   { path: 'about-system', component: AboutSystemComponent},
@@ -27,6 +31,7 @@ const routes: Routes = [
     AlphabetComponent,
     SettingsComponent,
     AboutDevsDialogComponent,
+    AlphabetDownloadWindowComponent,
     AboutSystemComponent
   ],
   imports: [HttpClientModule,
@@ -36,7 +41,7 @@ const routes: Routes = [
     MatButtonModule,
     //RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

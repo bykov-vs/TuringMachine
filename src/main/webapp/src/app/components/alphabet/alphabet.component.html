@@ -9,6 +9,7 @@
             <button *ngIf="i != 0" id={{i}} (click)="deleteSymbol($event)">Удалить</button>
         </div>
         <button *ngIf="symbols.length < 5" (click)="addSymbol()">Добавить</button>
-
+        <button class="common-button alphabet-button" (click)="saveAlphabet()">Сохранить</button>
+        <button class="common-button alphabet-button" (click)="downloadAlphabets()">Загрузить</button>
     </div>
 </div>
