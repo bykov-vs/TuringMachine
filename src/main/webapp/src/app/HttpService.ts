@@ -15,7 +15,7 @@ export class HttpService {
         return this.http.post('http://localhost:8080/algorithm/execute', request)
     }
 
-    savaAlphabet(request : any) {
+    saveAlphabet(request : any) {
         return this.http.post('http://localhost:8080/alphabet/save', request)
     }
 
@@ -29,5 +29,17 @@ export class HttpService {
 
     deleteAlphabetById(id : any) {
         return this.http.get('http://localhost:8080/alphabet/delete/' + id)
+    }
+
+    saveAlgorithm(request : any) {
+        return this.http.post('http://localhost:8080/algorithm/save', request)
+    }
+
+    getAllAlgorithms() {
+        return this.http.get('http://localhost:8080/algorithm/all')
+    }
+
+    deleteAlgorithmById(id : any) {
+        return this.http.get('http://localhost:8080/algorithm/delete/' + id)
     }
 }

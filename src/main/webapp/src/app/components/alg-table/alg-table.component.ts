@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Command} from './command';
 import {ViewEncapsulation} from '@angular/core';
+import {HttpService} from "../../HttpService";
 
 @Component({
     selector: 'app-alg-table',
@@ -31,7 +32,11 @@ export class AlgTableComponent implements OnInit, OnChanges{
     commands: Command[] | undefined
     @Output() newNumberOfStates = new EventEmitter<number>();
 
-    constructor() {}
+    algorithmId: any = null
+    algorithmName: any = "";
+    isBase: boolean = false;
+
+    constructor(private httpService: HttpService) {}
 
     ngOnInit(): void {
         this.commands = new Array(0);
@@ -185,6 +190,59 @@ export class AlgTableComponent implements OnInit, OnChanges{
         for (let i = 0; i < this.cellsValues.length; i++) {
             this.cellsValues[i] = new Array(this.symbols.length).fill(null)
         }
+    }
+
+    createNewAlgorithm() {
+        this.deleteCellsValue()
+        this.algorithmId = null
+        this.algorithmName = null
+    }
+
+    createRequest(): any {
+        let symbols = []
+        let name: String = "test_alg"
+        for (let x of this.symbols) {
+            symbols.push(x)
+        }
+        this.commands = []
+        for (let i = 0; i < this.cellsValues.length; i++){
+            for (let j = 0; j < this.cellsValues[i].length; j++){
+                if (this.cellsValues[i][j] !== null){
+                    // @ts-ignore
+                    this.commands.push(this.cellsValues[i][j])
+                }
+            }
+        }
+        console.log(this.commands)
+        let request: any = {
+            "id": this.algorithmId,
+            "name": this.algorithmName,
+            "alphabet": symbols,
+            "commands": this.commands,
+            "numberOfStates": (this.states.length - 1)
+        }
+        return request
+    }
+
+    saveAlgorithm() {
+        if (this.algorithmName && this.algorithmName.length > 0){
+            if (this.isBase){
+                alert("Нельзя редактировать базовый алгоритм")
+            }
+            else {
+                let request: any = this.createRequest()
+                this.httpService.saveAlgorithm(request)
+                    .subscribe((data: any) => {
+                        alert(data.message)
+                        this.algorithmId = data.id
+                    })
+            }
+        }
+        else {
+            alert("Для сохранения алгоритма введите его имя")
+        }
+        // console.log("after request" + this.steps)
+        // this.runAlgorithm()
     }
 }
 

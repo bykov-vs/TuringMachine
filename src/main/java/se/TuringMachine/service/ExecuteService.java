@@ -2,14 +2,13 @@ package se.TuringMachine.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import se.TuringMachine.dto.AlgorithmDTO;
 import se.TuringMachine.dto.ResultTapeDTO;
 import se.TuringMachine.dto.TrackStep;
-import se.TuringMachine.entity.Algorithm;
 import se.TuringMachine.entity.Command;
 import se.TuringMachine.exception.InvalidStateException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExecuteService {
 
-    public ResultTapeDTO execute(Algorithm algorithm, String tape) {
+    public ResultTapeDTO execute(AlgorithmDTO algorithm, String tape) {
         List<Command> commands = algorithm.getCommands();
         List<List<Command>> states = groupCommandsByStates(commands);
         StringBuilder dynamicTape = new StringBuilder();
@@ -80,9 +79,9 @@ public class ExecuteService {
 
     }
 
-    private int getRowByCharacter(Algorithm algorithm, char currentSymbol) {
+    private int getRowByCharacter(AlgorithmDTO algorithm, char currentSymbol) {
         for (int i = 0; i < algorithm.getAlphabet().size(); i++) {
-            if (algorithm.getAlphabet().get(i).getName() == currentSymbol){
+            if (algorithm.getAlphabet().get(i) == currentSymbol){
                 return i + 1;
             }
         }

@@ -49,7 +49,7 @@ export class AlphabetComponent {
     saveAlphabet() {
         // @ts-ignore
         let request: any = {alphabet: this.symbols}
-        this.httpService.savaAlphabet(request)
+        this.httpService.saveAlphabet(request)
             .subscribe((data: any) => {
                 alert(data.message)
             })

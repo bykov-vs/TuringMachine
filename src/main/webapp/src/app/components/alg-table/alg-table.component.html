@@ -1,3 +1,10 @@
+<label for="algorithm-name">Название алгоритма: </label>
+<input id="algorithm-name" type="text" [(ngModel)]="algorithmName">
+<button class="common-button new-algorithm-button" (click)="createNewAlgorithm()">Новый алгоритм</button>
+<p>
+    <button class="common-button new-algorithm-button">Загрузить</button>
+    <button class="common-button new-algorithm-button">Выбрать базовый</button>
+</p>
 <div class="table">
     <ul class="column">
         <li class="column-header"></li>
@@ -32,6 +39,7 @@
         </li>
     </ul>
 </div>
+<button class="common-button save-button" (click)="saveAlgorithm()">Сохранить</button>
 <!--   <input [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"  (click)="showList(i, j)">
             <select *ngIf="((isOpen) && (type == 0) && (cells[i][j]))" (change)="increaseType($event)" name="" id="">
                 <option *ngFor="let s of symbols" [value]="s">{{s}}</option>
