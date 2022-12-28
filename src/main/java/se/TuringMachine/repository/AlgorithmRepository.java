@@ -11,4 +11,7 @@ import java.util.List;
 public interface AlgorithmRepository extends JpaRepository<Algorithm, Long> {
     @Query("SELECT e FROM Algorithm e WHERE e.alphabetEntity.id = :alphabetId")
     List<Algorithm> getAlgorithmByAlphabet(Long alphabetId);
+
+    @Query("SELECT e FROM Algorithm e WHERE e.isBase = ?1")
+    List<Algorithm> findAllAlgorithms(Boolean isBase);
 }

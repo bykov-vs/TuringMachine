@@ -35,8 +35,8 @@ export class HttpService {
         return this.http.post('http://localhost:8080/algorithm/save', request)
     }
 
-    getAllAlgorithms() {
-        return this.http.get('http://localhost:8080/algorithm/all')
+    getAllAlgorithms(isBase: any) {
+        return this.http.get('http://localhost:8080/algorithm/all?isBase=' + isBase)
     }
 
     deleteAlgorithmById(id : any) {

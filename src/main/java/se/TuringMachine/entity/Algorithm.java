@@ -14,10 +14,10 @@ public class Algorithm {
     @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "is_base")
     private Boolean isBase;
 
-    @Column
+    @Column(name = "number_of_states")
     private Long numberOfStates;
 
     @ManyToOne

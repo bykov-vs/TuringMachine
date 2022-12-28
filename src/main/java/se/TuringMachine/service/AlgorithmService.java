@@ -35,11 +35,15 @@ public class AlgorithmService implements DefaultService<Algorithm>{
         return repository.findAll();
     }
 
-    public List<AlgorithmDTO> getAll() {
-
+    public List<AlgorithmDTO> getAll(Boolean isBase) {
+        System.out.println(isBase);
+        System.out.println(repository.findAll().size());
         List<AlgorithmDTO> dtos = new ArrayList<>();
-        List<Algorithm> entities = repository.findAll();
+        List<Algorithm> entities = repository.findAllAlgorithms(isBase);
         for (Algorithm entity: entities) {
+            System.out.println(entity.getIsBase());
+            System.out.println(entity.getIsBase() == isBase);
+
             AlgorithmDTO dto = new AlgorithmDTO();
             dto.setId(entity.getId());
             dto.setName(entity.getName());
@@ -54,6 +58,7 @@ public class AlgorithmService implements DefaultService<Algorithm>{
             dto.setAlphabet(symbols);
 
             dto.setCommands(commandService.getAllByAlgorithm(entity.getId()));
+            dtos.add(dto);
         }
         return dtos;
     }
@@ -78,6 +83,7 @@ public class AlgorithmService implements DefaultService<Algorithm>{
 
     public BasicResponse deleteById(Long id) {
         try {
+            commandService.deleteAllByAlgorithm(id);
             repository.deleteById(id);
             return new BasicResponse(true, "Алгоритм удалён");
         } catch (Exception e) {

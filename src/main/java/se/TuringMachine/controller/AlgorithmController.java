@@ -30,8 +30,8 @@ public class AlgorithmController {
     }
 
     @GetMapping("/all")
-    public List<AlgorithmDTO> getAll(){
-        return algorithmService.getAll();
+    public List<AlgorithmDTO> getAll(@RequestParam("isBase") Boolean isBase){
+        return algorithmService.getAll(isBase);
     }
 
 //    @GetMapping("/{id}")
