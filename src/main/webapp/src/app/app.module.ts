@@ -9,6 +9,15 @@ import {TapeComboboxComponent} from "./tape-combobox.component";
 import { AlgTableComponent } from './components/alg-table/alg-table.component';
 import { AlphabetComponent } from './components/alphabet/alphabet.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AboutSystemComponent } from './components/about-system/about-system.component';
+import { Routes, RouterModule } from '@angular/router'; 
+/*
+const routes: Routes = [
+  { path: 'about-system', component: AboutSystemComponent},
+  { path: '', component:AppComponent}
+];*/
 
 @NgModule({
   declarations: [
@@ -16,12 +25,16 @@ import { SettingsComponent } from './components/settings/settings.component';
     TapeComboboxComponent,
     AlgTableComponent,
     AlphabetComponent,
-    SettingsComponent
+    SettingsComponent,
+    AboutDevsDialogComponent,
+    AboutSystemComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,
     FormsModule,
-    MatButtonModule
+    MatDialogModule,
+    MatButtonModule,
+    //RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

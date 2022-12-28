@@ -1,9 +1,12 @@
 import {Component, ComponentRef, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { Router} from '@angular/router'; 
 import {User} from './user';
 import {HttpService} from "./HttpService";
 import {TapeComboboxComponent} from "./tape-combobox.component";
 import {Command} from "./components/alg-table/command";
+import {MatDialog} from '@angular/material/dialog';
+import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
 
 let tapeLength = 0;
 
@@ -287,7 +290,7 @@ export class AppComponent implements OnInit {
 
     user: User | undefined;
 
-    constructor(private httpService: HttpService) {
+    constructor(private httpService: HttpService, public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -356,6 +359,16 @@ export class AppComponent implements OnInit {
     alphabetChanges(alphabet : any){
         this.symbols = alphabet
         console.log("it working" + this.symbols.length)
+    }
+
+    openDialog(){
+        const dialogRef = this.dialog.open(AboutDevsDialogComponent, {
+            data: {name: "test"},
+          });
+      
+          dialogRef.afterClosed().subscribe(() => {
+            console.log('The dialog was closed');
+          });
     }
 
     ngAfterViewInit() {

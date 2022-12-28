@@ -1,8 +1,8 @@
 <div>
   <h1>Машина Тьюринга</h1>
   <div class="header-buttons">
-      <button class="header-button common-button" type="submit"> О СИСТЕМЕ</button>
-      <button class="header-button common-button" type="submit"> ОБ АВТОРАХ</button>
+      <a class="header-button common-button" target="_blank" href="http://localhost:4200/about-system.html"> О СИСТЕМЕ</a>
+      <button class="header-button common-button" (click)="openDialog()" type="submit"> ОБ АВТОРАХ</button>
   </div>
   <hr>
   <div class="main row">
@@ -24,3 +24,5 @@
       <app-settings [symbols] = "symbols" [cellValues]="cellValues" [tapeHeadPosition]="tapeHeadPosition" [numberOfStates]="numberOfStates" class="settings" (tapeLengthChange)="onTapeLengthChange($event)"></app-settings>
   </div>
 </div>
+
+
