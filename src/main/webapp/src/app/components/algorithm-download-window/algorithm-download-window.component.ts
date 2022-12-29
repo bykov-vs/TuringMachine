@@ -37,8 +37,8 @@ export class AlgorithmDownloadWindowComponent {
         this.dialogRef.close(null);
     }
 
-    downloadAlgorithm(symbols: any) {
-        console.log(symbols)
-        this.dialogRef.close(symbols);
+    downloadAlgorithm(newAlgorithm: any) {
+        console.log(newAlgorithm)
+        this.dialogRef.close(newAlgorithm);
     }
 }

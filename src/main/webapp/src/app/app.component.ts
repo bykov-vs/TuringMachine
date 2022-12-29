@@ -8,6 +8,7 @@ import {Command} from "./components/alg-table/command";
 import {MatDialog} from '@angular/material/dialog';
 import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
 import {AlgTableComponent} from "./components/alg-table/alg-table.component";
+import {AlphabetComponent} from "./components/alphabet/alphabet.component";
 
 let tapeLength = 0;
 
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
     @ViewChild("viewContainerRef", { read: ViewContainerRef }) vcr!: ViewContainerRef;
     ref!: ComponentRef<TapeComboboxComponent>
     @ViewChild(AlgTableComponent) algTableComponent: AlgTableComponent | undefined;
+    @ViewChild(AlphabetComponent) alphabetComponent: AlphabetComponent | undefined;
 
     cellValues: Command[][] = [[]]
     tapeHeadPosition = 8;
@@ -362,6 +364,13 @@ export class AppComponent implements OnInit {
         // @ts-ignore
         this.algTableComponent.deleteCellsValue();
         console.log("it working" + this.symbols.length)
+    }
+
+    setAlphabet(alphabet : any) {
+        this.symbols = alphabet
+        // @ts-ignore
+        this.algTableComponent.deleteCellsValue();
+        this.alphabetComponent?.setAlphabet(alphabet)
     }
 
     openDialog(){

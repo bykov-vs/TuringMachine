@@ -49,6 +49,7 @@ export class SettingsComponent {
         for (let x of this.symbols) {
             symbols.push(x)
         }
+        this.commands = []
         for (let i = 0; i < this.cellValues.length; i++){
             for (let j = 0; j < this.cellValues[i].length; j++){
                 if (this.cellValues[i][j] !== null){

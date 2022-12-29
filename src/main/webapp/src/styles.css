@@ -5,6 +5,13 @@
     text-align: right;
 }
 
+.about-system {
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+    text-align: center;
+}
+
 .row {
     margin: 0 auto;
     display: flex;

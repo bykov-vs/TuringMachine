@@ -1,7 +1,7 @@
 <div>
   <h1>Машина Тьюринга</h1>
   <div class="header-buttons">
-      <a class="header-button common-button" target="_blank" href="http://localhost:8080/"> О СИСТЕМЕ</a>
+      <a class="header-button common-button about-system" target="_blank" href="http://localhost:8080/"> О СИСТЕМЕ</a>
       <button class="header-button common-button" (click)="openDialog()" type="submit"> ОБ АВТОРАХ</button>
   </div>
   <hr>
@@ -18,8 +18,8 @@
                   <button (click)="moveRightTapeHead()" id="tape-button-right">→</button>
               </div>
           </div>
-          <app-alphabet [symbols] = "symbols" (alphabetChangeEvent)="alphabetChanges($event)"></app-alphabet>
-          <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" [symbols] = "symbols" [symbolsLength]="symbols.length"></app-alg-table>
+          <app-alphabet [symbols]="symbols" (alphabetChangeEvent)="alphabetChanges($event)"></app-alphabet>
+          <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" (alphabetSetEvent)="setAlphabet($event)"  [symbols]="symbols" [symbolsLength]="symbols.length"></app-alg-table>
       </div>
       <app-settings [symbols] = "symbols" [cellValues]="cellValues" [tapeHeadPosition]="tapeHeadPosition" [numberOfStates]="numberOfStates" class="settings" (tapeLengthChange)="onTapeLengthChange($event)"></app-settings>
   </div>

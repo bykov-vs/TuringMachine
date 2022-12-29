@@ -34,6 +34,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
     @Output() newItemEvent = new EventEmitter<Command[][]>();
     commands: Command[] | undefined
     @Output() newNumberOfStates = new EventEmitter<number>();
+    @Output() alphabetSetEvent = new EventEmitter<String[]>()
 
     algorithmId: any = null
     algorithmName: any = "";
@@ -207,7 +208,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
         for (let x of this.symbols) {
             symbols.push(x)
         }
-        this.commands = []
+        this.commands = new Array(0)
         for (let i = 0; i < this.cellsValues.length; i++) {
             for (let j = 0; j < this.cellsValues[i].length; j++) {
                 if (this.cellsValues[i][j] !== null) {
@@ -254,10 +255,35 @@ export class AlgTableComponent implements OnInit, OnChanges {
                     }
                 });
 
-                dialogRef.afterClosed().subscribe(async newSymbols => {
-                    if (newSymbols) {
-                        this.symbols = newSymbols
+                dialogRef.afterClosed().subscribe(async newAlgorithm => {
+                    if (newAlgorithm) {
+                        this.algorithmName = newAlgorithm.name
+                        this.algorithmId = newAlgorithm.id
+                        this.alphabetSetEvent.emit(newAlgorithm.alphabet)
+                        let newStates = []
+                        for (let i = 1; i <= newAlgorithm.numberOfStates + 1; i++) {
+                            newStates.push(i)
+                        }
+                        this.states = newStates
+                        this.changeCells()
 
+                        this.commands = new Array(0)
+                        this.deleteCellsValue()
+
+                        let newCommand: Command
+                        for (let command of newAlgorithm.commands) {
+                            newCommand = {
+                                move: command.move,
+                                newSymbol: command.newSymbol,
+                                state: command.state,
+                                nextState: command.nextState,
+                                symbol: command.symbol
+                            }
+                            //this.commands.push(newCommand)
+                            this.newItemEvent.emit(this.cellsValues)
+                            // @ts-ignore
+                            this.cellsValues[newAlgorithm.alphabet.indexOf(newCommand.symbol)][newCommand.state] = newCommand
+                        }
                     }
                     console.log('The dialog was closed');
                 });

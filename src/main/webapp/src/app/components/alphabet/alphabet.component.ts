@@ -18,6 +18,10 @@ export class AlphabetComponent {
     constructor(private httpService: HttpService, public dialog: MatDialog) {
     }
 
+    setAlphabet(alphabet: any) {
+        this.symbols = alphabet
+    }
+
     showAlphabet() {
         this.alphabet = !this.alphabet
     }
