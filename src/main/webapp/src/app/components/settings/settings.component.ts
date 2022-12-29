@@ -84,6 +84,23 @@ export class SettingsComponent {
                     this.tapeLength = data.tapeLength
                     this.runAlgorithm()
                     console.log(data)
+                    let str = ""
+                    for (let obj of data.trackSteps) {
+                        str += obj.tapeHeadPosition + " - " + obj.newSymbol + "\n"
+                    }
+
+                    let file = new Blob([str], {type: '.txt'});
+
+                    let a = document.createElement("a"),
+                        url = URL.createObjectURL(file);
+                    a.href = url;
+                    a.download = "Трасса.txt";
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(function() {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    }, 0);
                 } else {
                     alert(data.message)
                 }
