@@ -202,6 +202,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
         this.deleteCellsValue()
         this.algorithmId = null
         this.algorithmName = null
+        this.isBase = false
     }
 
     createRequest(): any {

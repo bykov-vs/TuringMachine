@@ -31,7 +31,7 @@ public class ExecuteService {
         Command currentCommand = null;
         List<TrackStep> track = new ArrayList<>();
 
-        while (indexOfState < states.size() && iters < MAX_ITERS && indexOfSymbol <= algorithm.getTape().length()) {
+        while (indexOfState < algorithm.getNumberOfStates() && iters < MAX_ITERS && indexOfSymbol < algorithm.getTape().length()) {
             iters++;
 //            if (indexOfSymbol < 0) {
 //                indexOfSymbol++;

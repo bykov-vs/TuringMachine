@@ -79,10 +79,15 @@ export class SettingsComponent {
         let request: any = this.createRequest()
         this.httpService.executeAlgorithm(request)
             .subscribe((data: any) => {
-                this.steps = data.trackSteps
-                this.tapeLength = data.tapeLength
-                this.runAlgorithm()
-                console.log(data)
+                if (data.successful) {
+                    this.steps = data.trackSteps
+                    this.tapeLength = data.tapeLength
+                    this.runAlgorithm()
+                    console.log(data)
+                } else {
+                    alert(data.message)
+                }
+
             })
         // console.log("after request" + this.steps)
         // this.runAlgorithm()
@@ -180,8 +185,8 @@ export class SettingsComponent {
         let x = this.steps[this.stepNumber]
         let element, tapeScope, combobox
         element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
-        tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
-        combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+        tapeScope = document.getElementById('tape-element-scope-' + (x.tapeHeadPosition + 1))
+        combobox = document.getElementById('tape-element-' + (x.tapeHeadPosition + 1))
         if (element && tapeScope && combobox) {
             element.setAttribute('class', '')
             tapeScope.setAttribute('class', 'tape-element-scope')
@@ -192,8 +197,8 @@ export class SettingsComponent {
         this.stepNumber++
         x = this.steps[this.stepNumber]
         element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
-        tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
-        combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+        tapeScope = document.getElementById('tape-element-scope-' + (x.tapeHeadPosition + 1))
+        combobox = document.getElementById('tape-element-' + (x.tapeHeadPosition + 1))
         if (element && tapeScope && combobox) {
             element.setAttribute('class', 'selected')
             tapeScope.setAttribute('class', 'tape-element-scope selected')
@@ -226,7 +231,7 @@ export class SettingsComponent {
                             await this.sleep(1);
                         }
                         else if (this.mode == 'standard'){
-                            await this.sleep(100 * this.speedRange);
+                            await this.sleep(100 * (11 - this.speedRange));
                         }
                         element.setAttribute('class', '')
                         tapeScope.setAttribute('class', 'tape-element-scope')
@@ -236,11 +241,11 @@ export class SettingsComponent {
                 }
             })();
         } else {
-            this.stepNumber = 1;
+            this.stepNumber = 0;
             const x = this.steps[this.stepNumber]
             element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
-            tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
-            combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+            tapeScope = document.getElementById('tape-element-scope-' + (x.tapeHeadPosition + 1))
+            combobox = document.getElementById('tape-element-' + (x.tapeHeadPosition + 1))
             if (element && tapeScope && combobox) {
                 element.setAttribute('class', 'selected')
                 tapeScope.setAttribute('class', 'tape-element-scope selected')

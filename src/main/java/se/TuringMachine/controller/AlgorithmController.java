@@ -53,8 +53,15 @@ public class AlgorithmController {
     }
 
     @PostMapping("/execute")
-    public ResponseEntity<?> executeAlgorithm(@RequestBody AlgorithmDTO algorithm){
-        ResultTapeDTO resultTapeDTO = executeService.execute(algorithm, algorithm.getTape());
-        return new ResponseEntity<>(resultTapeDTO, HttpStatus.OK);
+    public ResultTapeDTO executeAlgorithm(@RequestBody AlgorithmDTO algorithm){
+        try {
+            ResultTapeDTO resultTapeDTO = executeService.execute(algorithm, algorithm.getTape());
+            resultTapeDTO.setSuccessful(true);
+            resultTapeDTO.setMessage("Алгоритм успешно выполнен");
+            return resultTapeDTO;
+        } catch (Exception e) {
+            return new ResultTapeDTO(false, "Алгоритм привёл в пустое состояние");
+        }
+
     }
 }
