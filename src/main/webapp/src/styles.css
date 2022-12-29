@@ -28,6 +28,10 @@
     transform: rotate(0.14deg);
 }
 
+.common-button:hover {
+    background: rgba(24, 131, 117, 0.78);
+}
+
 .algorithm {
     margin-left: 5%;
     width: 70%;

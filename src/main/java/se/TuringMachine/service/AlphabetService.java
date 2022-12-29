@@ -15,6 +15,8 @@ import java.util.List;
 public class AlphabetService implements DefaultService<Alphabet> {
     private final AlphabetRepository repository;
 
+    private final AlgorithmService algorithmService;
+
     public BasicResponse saveAlphabet(AlphabetDTO alphabet){
         Long alphabetId = repository.getAlphabetIdByName(alphabet.toString());
         if (alphabetId != null) {
@@ -26,6 +28,10 @@ public class AlphabetService implements DefaultService<Alphabet> {
             repository.save(entity);
             return new BasicResponse(true, "Алфавит создан");
         }
+    }
+
+    public Long getAlphabetIdByName(String name) {
+        return repository.getAlphabetIdByName(name);
     }
     @Override
     public void save(Alphabet alphabet) {
@@ -75,6 +81,9 @@ public class AlphabetService implements DefaultService<Alphabet> {
 
     public BasicResponse deleteById(Long id) {
         try {
+            if (algorithmService.existsAlgorithmByAlphabet(id)) {
+                return new BasicResponse(false, "Нельзя удалить алфавит, связанные с алгоритмами");
+            }
             repository.deleteById(id);
             return new BasicResponse(true, "Алфавит удалён");
         } catch (Exception e) {

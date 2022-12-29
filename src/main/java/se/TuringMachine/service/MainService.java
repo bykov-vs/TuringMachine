@@ -2,13 +2,12 @@ package se.TuringMachine.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import se.TuringMachine.dto.AlgorithmDTO;
+import se.TuringMachine.dto.AlphabetDTO;
 import se.TuringMachine.entity.Algorithm;
 import se.TuringMachine.entity.Alphabet;
 import se.TuringMachine.entity.Command;
-import se.TuringMachine.entity.Symbol;
-
-import java.util.List;
-import java.util.Set;
+import se.TuringMachine.response.AlgorithmResponse;
 
 @Service
 @AllArgsConstructor
@@ -18,18 +17,39 @@ public class MainService {
     private final CommandService commandService;
     private final SymbolService symbolService;
 
-    public void saveAlgorithm(Algorithm algorithm){
-        Alphabet alphabet = algorithm.getAlphabetEntity();
-        Set<Symbol> symbols = alphabet.getSymbol();
-        for (Symbol symbol : symbols) {
-            symbolService.save(symbol);
+    public AlgorithmResponse saveAlgorithm(AlgorithmDTO dto){
+        try {
+            Algorithm entity;
+            if (dto.getId() == null) {
+                entity = new Algorithm();
+            }
+            else {
+                entity = algorithmService.findById(dto.getId());
+                commandService.deleteAllByAlgorithm(dto.getId());
+            }
+            entity.setName(dto.getName());
+
+            AlphabetDTO alphabetDTO = new AlphabetDTO();
+            alphabetDTO.setAlphabet(dto.getAlphabet());
+            Long alphabetId = alphabetService.getAlphabetIdByName(alphabetDTO.toString());
+            if (alphabetId == null) {
+                alphabetService.saveAlphabet(alphabetDTO);
+                alphabetId = alphabetService.getAlphabetIdByName(alphabetDTO.toString());
+            }
+
+            entity.setNumberOfStates(dto.getNumberOfStates());
+            entity.setIsBase(false);
+            entity.setAlphabetEntity(alphabetService.findById(alphabetId));
+            entity = algorithmService.saveAlgorithm(entity);
+
+            for (Command command: dto.getCommands()) {
+                command.setAlgorithm(entity);
+                commandService.save(command);
+            }
+            return new AlgorithmResponse(true, "Алгоритм сохранён", entity.getId());
+        } catch (Exception e) {
+            return new AlgorithmResponse(false, "При сохранении алгоритма произошла ошибка", null);
         }
-        List<Command> commands = algorithm.getCommands();
-        for (Command command : commands) {
-            commandService.save(command);
-        }
-        alphabetService.save(alphabet);
-        algorithmService.save(algorithm);
     }
 
     public Algorithm findAlgorithm(Long id){

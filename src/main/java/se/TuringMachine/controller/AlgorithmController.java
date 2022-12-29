@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.TuringMachine.dto.AlgorithmDTO;
 import se.TuringMachine.dto.ResultTapeDTO;
 import se.TuringMachine.entity.Algorithm;
+import se.TuringMachine.response.AlgorithmResponse;
+import se.TuringMachine.response.BasicResponse;
+import se.TuringMachine.service.AlgorithmService;
 import se.TuringMachine.service.ExecuteService;
 import se.TuringMachine.service.MainService;
 
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -19,11 +22,26 @@ import java.util.Map;
 public class AlgorithmController {
     private final MainService service;
     private final ExecuteService executeService;
+    private final AlgorithmService algorithmService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveAlgorithm(@RequestBody Algorithm algorithm){
-        service.saveAlgorithm(algorithm);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public AlgorithmResponse saveAlgorithm(@RequestBody AlgorithmDTO algorithm){
+        return service.saveAlgorithm(algorithm);
+    }
+
+    @GetMapping("/all")
+    public List<AlgorithmDTO> getAll(@RequestParam("isBase") Boolean isBase){
+        return algorithmService.getAll(isBase);
+    }
+
+//    @GetMapping("/{id}")
+//    public AlgorithmDTO getById(@PathVariable Long id){
+//        return algorithmService.getById(id);
+//    }
+
+    @GetMapping("/delete/{id}")
+    public BasicResponse deleteById(@PathVariable Long id){
+        return algorithmService.deleteById(id);
     }
 
     @GetMapping("/alg")
@@ -35,7 +53,7 @@ public class AlgorithmController {
     }
 
     @PostMapping("/execute")
-    public ResponseEntity<?> executeAlgorithm(@RequestBody Algorithm algorithm){
+    public ResponseEntity<?> executeAlgorithm(@RequestBody AlgorithmDTO algorithm){
         ResultTapeDTO resultTapeDTO = executeService.execute(algorithm, algorithm.getTape());
         return new ResponseEntity<>(resultTapeDTO, HttpStatus.OK);
     }

@@ -3,8 +3,6 @@ package se.TuringMachine.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Data
 public class Algorithm {
@@ -13,24 +11,16 @@ public class Algorithm {
     @Column(name = "id_algorithm")
     private Long id;
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "is_base")
+    private Boolean isBase;
+
+    @Column(name = "number_of_states")
+    private Long numberOfStates;
 
     @ManyToOne
     @JoinColumn(name = "id_alphabet")
     private Alphabet alphabetEntity;
-
-    @Transient
-    private List<Symbol> alphabet;
-
-    @Transient
-    private List<Command> commands;
-
-    @Transient
-    private String tape;
-
-    @Transient
-    private Long numberOfStates;
-
-    @Transient
-    private int tapeHeadPosition;
 }

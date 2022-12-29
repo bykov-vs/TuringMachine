@@ -1,5 +1,6 @@
 package se.TuringMachine.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import se.TuringMachine.entity.Command;
@@ -35,5 +36,14 @@ public class CommandService implements DefaultService<Command>{
     @Override
     public Command delete(Command command) {
         return null;
+    }
+
+    @Transactional
+    public void deleteAllByAlgorithm(Long algorithmId) {
+        repo.deleteAllByAlgorithm(algorithmId);
+    }
+
+    public List<Command> getAllByAlgorithm(Long algorithmId) {
+        return repo.getAllByAlgorithm(algorithmId);
     }
 }

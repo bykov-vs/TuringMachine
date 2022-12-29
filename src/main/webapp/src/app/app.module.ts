@@ -16,6 +16,9 @@ import {
   AlphabetDownloadWindowComponent
 } from "./components/alphabet-download-window/alphabet-download-window.component";
 import {HttpService} from "./HttpService";
+import {
+  AlgorithmDownloadWindowComponent
+} from "./components/algorithm-download-window/algorithm-download-window.component";
 /*
 const routes: Routes = [
   { path: 'about-system', component: AboutSystemComponent},
@@ -31,6 +34,7 @@ const routes: Routes = [
     SettingsComponent,
     AboutDevsDialogComponent,
     AlphabetDownloadWindowComponent,
+    AlgorithmDownloadWindowComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,

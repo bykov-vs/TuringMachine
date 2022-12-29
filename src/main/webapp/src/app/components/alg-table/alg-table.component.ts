@@ -1,6 +1,10 @@
 import {Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Command} from './command';
 import {ViewEncapsulation} from '@angular/core';
+import {HttpService} from "../../HttpService";
+import {AlphabetDownloadWindowComponent} from "../alphabet-download-window/alphabet-download-window.component";
+import {AlgorithmDownloadWindowComponent} from "../algorithm-download-window/algorithm-download-window.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector: 'app-alg-table',
@@ -8,9 +12,9 @@ import {ViewEncapsulation} from '@angular/core';
     styleUrls: ['./alg-table.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AlgTableComponent implements OnInit, OnChanges{
+export class AlgTableComponent implements OnInit, OnChanges {
     @Input() symbols: String[] = []
-    @Input() symbolsLength : number = 0
+    @Input() symbolsLength: number = 0
     command: String = ""
     states: number[] = [1, 2, 3, 4]
     isOpen: boolean = false
@@ -31,11 +35,16 @@ export class AlgTableComponent implements OnInit, OnChanges{
     commands: Command[] | undefined
     @Output() newNumberOfStates = new EventEmitter<number>();
 
-    constructor() {}
+    algorithmId: any = null
+    algorithmName: any = "";
+    isBase: boolean = false;
+
+    constructor(private httpService: HttpService, public dialog: MatDialog) {
+    }
 
     ngOnInit(): void {
         this.commands = new Array(0);
-        
+
         this.cells = new Array(this.states.length)
         for (let i = 0; i < this.cells.length; i++) {
             this.cells[i] = new Array(this.symbols.length).fill(false)
@@ -46,7 +55,7 @@ export class AlgTableComponent implements OnInit, OnChanges{
             this.cellsValues[i] = new Array(this.symbols.length).fill(null)
         }
     }
-    
+
     ngOnChanges(changes: SimpleChanges): void {
         this.changeCells()
     }
@@ -96,13 +105,13 @@ export class AlgTableComponent implements OnInit, OnChanges{
 
         this.cellsValues = new Array(this.symbols.length)
         let minSize = Math.min(this.cellsValues.length, cellValues.length)
-        for (let i = 0; i < this.cellsValues.length; i++){
+        for (let i = 0; i < this.cellsValues.length; i++) {
             this.cellsValues[i] = new Array(this.states.length).fill(null)
         }
         for (let i = 0; i < minSize; i++) {
             this.cellsValues[i] = new Array(this.states.length).fill(null)
             let minSizeJ = Math.min(this.cellsValues[i].length, cellValues[0].length)
-            for (let j = 0; j < minSizeJ; j++){
+            for (let j = 0; j < minSizeJ; j++) {
                 this.cellsValues[i][j] = cellValues[i][j]
             }
         }
@@ -158,17 +167,16 @@ export class AlgTableComponent implements OnInit, OnChanges{
         this.type++
     }
 
-    setCellValue(j : number, i : number){
+    setCellValue(j: number, i: number) {
 
         // console.log("\nin:" +this.symbols.length + "-" + this.states.length)
         // console.log("out:" +this.cellsValues.length + "-" + this.cellsValues[0].length)
 
-        if (this.cellsValues[j][i] !== null){
+        if (this.cellsValues[j][i] !== null) {
             return this.cellsValues[j][i].newSymbol + " " +
                 this.cellsValues[j][i].move + " " +
-                (this.cellsValues[j][i].nextState+1) + " ";
-        }
-        else{
+                (this.cellsValues[j][i].nextState + 1) + " ";
+        } else {
             return ''
         }
     }
@@ -185,6 +193,75 @@ export class AlgTableComponent implements OnInit, OnChanges{
         for (let i = 0; i < this.cellsValues.length; i++) {
             this.cellsValues[i] = new Array(this.symbols.length).fill(null)
         }
+    }
+
+    createNewAlgorithm() {
+        this.deleteCellsValue()
+        this.algorithmId = null
+        this.algorithmName = null
+    }
+
+    createRequest(): any {
+        let symbols = []
+        let name: String = "test_alg"
+        for (let x of this.symbols) {
+            symbols.push(x)
+        }
+        this.commands = []
+        for (let i = 0; i < this.cellsValues.length; i++) {
+            for (let j = 0; j < this.cellsValues[i].length; j++) {
+                if (this.cellsValues[i][j] !== null) {
+                    // @ts-ignore
+                    this.commands.push(this.cellsValues[i][j])
+                }
+            }
+        }
+        console.log(this.commands)
+        let request: any = {
+            "id": this.algorithmId,
+            "name": this.algorithmName,
+            "alphabet": symbols,
+            "commands": this.commands,
+            "numberOfStates": (this.states.length - 1)
+        }
+        return request
+    }
+
+    saveAlgorithm() {
+        if (this.algorithmName && this.algorithmName.length > 0) {
+            if (this.isBase) {
+                alert("Нельзя редактировать базовый алгоритм")
+            } else {
+                let request: any = this.createRequest()
+                this.httpService.saveAlgorithm(request)
+                    .subscribe((data: any) => {
+                        alert(data.message)
+                        this.algorithmId = data.id
+                    })
+            }
+        } else {
+            alert("Для сохранения алгоритма введите его имя")
+        }
+    }
+
+    downloadAlgorithms(isBase: boolean) {
+        this.httpService.getAllAlgorithms(isBase)
+            .subscribe((data: any) => {
+                const dialogRef = this.dialog.open(AlgorithmDownloadWindowComponent, {
+                    data: {
+                        algorithms: data,
+                        isBase: isBase
+                    }
+                });
+
+                dialogRef.afterClosed().subscribe(async newSymbols => {
+                    if (newSymbols) {
+                        this.symbols = newSymbols
+
+                    }
+                    console.log('The dialog was closed');
+                });
+            })
     }
 }
 

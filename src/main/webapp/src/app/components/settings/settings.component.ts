@@ -47,7 +47,7 @@ export class SettingsComponent {
         //     tape += x
         // }
         for (let x of this.symbols) {
-            symbols.push({"name": x})
+            symbols.push(x)
         }
         for (let i = 0; i < this.cellValues.length; i++){
             for (let j = 0; j < this.cellValues[i].length; j++){
@@ -150,14 +150,14 @@ export class SettingsComponent {
 
     onOperandChange() {
         let tapeElement, i = 1;
-        if (this.operand1 < 1){
-            this.operand1 = 1
+        if (this.operand1 < 0){
+            this.operand1 = 0
         }
         if (this.operand1 > 10){
             this.operand1 = 10
         }
-        if (this.operand2 < 1){
-            this.operand2 = 1
+        if (this.operand2 < 0){
+            this.operand2 = 0
         }
         if (this.operand2 > 10){
             this.operand2 = 10

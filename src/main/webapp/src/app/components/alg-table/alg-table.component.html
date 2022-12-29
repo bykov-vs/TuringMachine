@@ -1,3 +1,10 @@
+<label for="algorithm-name">Название алгоритма: </label>
+<input id="algorithm-name" type="text" [(ngModel)]="algorithmName">
+<button class="common-button new-algorithm-button" (click)="createNewAlgorithm()">Новый алгоритм</button>
+<p>
+    <button class="common-button new-algorithm-button" (click)="downloadAlgorithms(false)">Загрузить</button>
+    <button class="common-button new-algorithm-button" (click)="downloadAlgorithms(true)">Выбрать базовый</button>
+</p>
 <div class="table">
     <ul class="column">
         <li class="column-header"></li>
@@ -9,16 +16,16 @@
         <li class="column-header">
             <span>Q{{i+1}}</span>
             <div class="buttons-wrapper">
-                <button (click)="insertColumnLeft(i)">left</button> 
+                <button (click)="insertColumnLeft(i)">left</button>
                 <button (click)="deleteColumn(i)">delete</button>
                 <button (click)="insertColumnRight(i)">right</button>
             </div>
-            
+
         </li>
         <li *ngFor="let symbol of symbols; index as j" >
-            <input id="col-{{i}}-row-{{j}}" 
+            <input id="col-{{i}}-row-{{j}}"
                 [value]="setCellValue(j, i)" type="text"
-                (click)="showList(j, i)" 
+                (click)="showList(j, i)"
                 onkeypress="return false;">
             <div *ngIf="((isOpen) && (type == 0) && (cells[j][i]))" (click)="increaseType($event)" class="dropdown-content">
                 <button *ngFor="let s of symbols" [value]="s">{{s}}</button>
@@ -32,6 +39,7 @@
         </li>
     </ul>
 </div>
+<button class="common-button save-button" (click)="saveAlgorithm()">Сохранить</button>
 <!--   <input [value]="cellsValues[i][j] != undefined ? cellsValues[i][j] : ''" type="text"  (click)="showList(i, j)">
             <select *ngIf="((isOpen) && (type == 0) && (cells[i][j]))" (change)="increaseType($event)" name="" id="">
                 <option *ngFor="let s of symbols" [value]="s">{{s}}</option>

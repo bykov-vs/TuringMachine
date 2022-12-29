@@ -15,15 +15,16 @@ public class Command {
 
     private Character newSymbol;
 
+    private int state;
+
     private int nextState;
 
-    private int state;
+    private Character symbol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_algorithm")
     private Algorithm algorithm;
 
-    private Character symbol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_symbol")
