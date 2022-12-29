@@ -2,15 +2,15 @@
     <p>Параметры запуска:</p>
     <div class="tape-length">
         <p>Длина ленты:</p>
-        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value={{tapeLength}}>
+        <input (change)="onTapeLengthChange($event)" class="input-text" type="number" id="tape-length" min="10" max="200" value={{tapeLength}} maxlength="3">
     </div>
     <div class="operand">
         <p>Операнд 1:</p>
-        <input (change)="onOperandChange()" class="input-text" [(ngModel)]="operand1" name="op1" type="number" id="operand-1" min="0" max="20">
+        <input (change)="onOperandChange()" class="input-text" [(ngModel)]="operand1" name="op1" type="number" id="operand-1" min="0" max="20" maxlength="2">
     </div>
     <div class="operand">
         <p>Операнд 2:</p>
-        <input (change)="onOperandChange()" class="input-text" [(ngModel)]="operand2" name="op2" type="number" id="operand-2" min="0" max="20">
+        <input (change)="onOperandChange()" class="input-text" [(ngModel)]="operand2" name="op2" type="number" id="operand-2" min="0" max="20" maxlength="2">
     </div>
     
     <div class="launch">

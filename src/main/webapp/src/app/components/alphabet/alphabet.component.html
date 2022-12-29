@@ -2,7 +2,7 @@
     <button class="button common-button" (click)="showAlphabet()">Алфавит</button>
     <div *ngIf="alphabet" class="symbols">
         <div class="symbol-group" *ngFor="let symbol of symbols; index as i">
-            <input  class="symbol" type="text"
+            <input  class="symbol" type="text" maxlength="1"
                     [value]="symbol"
                     id={{i}}
                     (change)="changeSymbol($event)">

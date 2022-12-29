@@ -11,7 +11,6 @@ import { AlphabetComponent } from './components/alphabet/alphabet.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AboutDevsDialogComponent } from './components/about-devs-dialog/about-devs-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AboutSystemComponent } from './components/about-system/about-system.component';
 import { Routes, RouterModule } from '@angular/router';
 import {
   AlphabetDownloadWindowComponent
@@ -32,7 +31,6 @@ const routes: Routes = [
     SettingsComponent,
     AboutDevsDialogComponent,
     AlphabetDownloadWindowComponent,
-    AboutSystemComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,
