@@ -1,6 +1,6 @@
 import {Component, ComponentRef, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Router} from '@angular/router'; 
+import { Router} from '@angular/router';
 import {User} from './user';
 import {HttpService} from "./HttpService";
 import {TapeComboboxComponent} from "./tape-combobox.component";
@@ -363,7 +363,23 @@ export class AppComponent implements OnInit {
         this.symbols = alphabet
         // @ts-ignore
         this.algTableComponent.deleteCellsValue();
+        // this.ref = this.vcr.get(0);
+        // this.ref.instance.symbols = this.symbols
+        while(tapeLength > 0) {
+            this.removeChild()
+        }
+        (async () => {
+            await new Promise<void>(resolve => {
+                setTimeout(()=> {
+                    this.createTape();
+                    resolve();
+                }, 200);
+            }).then(() => {
+                this.initTapeHeadPosition()
+            });
+        })()
         console.log("it working" + this.symbols.length)
+        this.alphabetComponent?.setAlphabet(alphabet)
     }
 
     setAlphabet(alphabet : any) {
@@ -377,7 +393,7 @@ export class AppComponent implements OnInit {
         const dialogRef = this.dialog.open(AboutDevsDialogComponent, {
             data: {name: "test"},
           });
-      
+
           dialogRef.afterClosed().subscribe(() => {
             console.log('The dialog was closed');
           });

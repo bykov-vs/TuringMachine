@@ -70,6 +70,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
         for (let j = i; j < this.states.length; j++) {
             this.states[j] += 1
         }
+        this.newNumberOfStates.emit(this.states.length)
         // console.log(this.states)
         this.changeCells()
     }
@@ -80,6 +81,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
         for (let j = i + 1; j < this.states.length; j++) {
             this.states[j] += 1
         }
+        this.newNumberOfStates.emit(this.states.length)
         this.changeCells()
     }
 
@@ -93,7 +95,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
             }
             this.changeCells()
         }
-
+        this.newNumberOfStates.emit(this.states.length)
     }
 
     changeCells() {
@@ -245,6 +247,10 @@ export class AlgTableComponent implements OnInit, OnChanges {
         }
     }
 
+    sleep(ms: any) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     downloadAlgorithms(isBase: boolean) {
         this.httpService.getAllAlgorithms(isBase)
             .subscribe((data: any) => {
@@ -257,33 +263,50 @@ export class AlgTableComponent implements OnInit, OnChanges {
 
                 dialogRef.afterClosed().subscribe(async newAlgorithm => {
                     if (newAlgorithm) {
-                        this.algorithmName = newAlgorithm.name
-                        this.algorithmId = newAlgorithm.id
-                        this.alphabetSetEvent.emit(newAlgorithm.alphabet)
-                        let newStates = []
-                        for (let i = 1; i <= newAlgorithm.numberOfStates + 1; i++) {
-                            newStates.push(i)
-                        }
-                        this.states = newStates
-                        this.changeCells()
-
-                        this.commands = new Array(0)
-                        this.deleteCellsValue()
-
-                        let newCommand: Command
-                        for (let command of newAlgorithm.commands) {
-                            newCommand = {
-                                move: command.move,
-                                newSymbol: command.newSymbol,
-                                state: command.state,
-                                nextState: command.nextState,
-                                symbol: command.symbol
+                        // (async () => {
+                            this.isBase = isBase
+                            this.algorithmName = newAlgorithm.name
+                            this.algorithmId = newAlgorithm.id
+                            this.alphabetSetEvent.emit(newAlgorithm.alphabet)
+                            let newStates = []
+                            for (let i = 1; i <= newAlgorithm.numberOfStates + 1; i++) {
+                                newStates.push(i)
                             }
-                            //this.commands.push(newCommand)
-                            this.newItemEvent.emit(this.cellsValues)
-                            // @ts-ignore
-                            this.cellsValues[newAlgorithm.alphabet.indexOf(newCommand.symbol)][newCommand.state] = newCommand
-                        }
+                            this.states = newStates
+                            this.changeCells()
+                            this.newNumberOfStates.emit(this.states.length)
+
+                            this.commands = new Array(0)
+                            this.deleteCellsValue()
+                            this.changeCells()
+                            let newCommand: Command
+                            for (let command of newAlgorithm.commands) {
+                                await (async () => {
+                                    await new Promise<void>(resolve => {
+                                        setTimeout(() => {
+                                            newCommand = {
+                                                move: command.move,
+                                                newSymbol: command.newSymbol,
+                                                state: command.state,
+                                                nextState: command.nextState,
+                                                symbol: command.symbol
+                                            }
+                                            //this.commands.push(newCommand)
+                                            this.newItemEvent.emit(this.cellsValues)
+                                            resolve();
+                                        }, 10);
+                                    }).then(() => {
+                                        // @ts-ignore
+                                        this.cellsValues[newAlgorithm.alphabet.indexOf(newCommand.symbol)][newCommand.state] = newCommand
+
+                                    });
+                                })()
+
+                                // await this.sleep(100)
+                                // @ts-ignore
+                                //this.cellsValues[newAlgorithm.alphabet.indexOf(newCommand.symbol)][newCommand.state] = newCommand
+                            }
+                        // })
                     }
                     console.log('The dialog was closed');
                 });

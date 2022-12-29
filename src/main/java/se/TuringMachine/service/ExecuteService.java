@@ -31,15 +31,15 @@ public class ExecuteService {
         Command currentCommand = null;
         List<TrackStep> track = new ArrayList<>();
 
-        while (indexOfState < states.size() && iters < MAX_ITERS) {
+        while (indexOfState < states.size() && iters < MAX_ITERS && indexOfSymbol <= algorithm.getTape().length()) {
             iters++;
-            if (indexOfSymbol < 0) {
-                indexOfSymbol++;
-                dynamicTape.insert(indexOfSymbol, "_");
-            }
-            if (indexOfSymbol >= dynamicTape.length()) {
-                dynamicTape.append("_");
-            }
+//            if (indexOfSymbol < 0) {
+//                indexOfSymbol++;
+//                dynamicTape.insert(indexOfSymbol, "_");
+//            }
+//            if (indexOfSymbol >= dynamicTape.length()) {
+//                dynamicTape.append("_");
+//            }
             char currentSymbol = dynamicTape.charAt(indexOfSymbol);
             //char currentSymbol = indexOfSymbol < 0 || indexOfSymbol >= symbols.length ? ' ': symbols[indexOfSymbol];
             currentCommand = getCurrentCommand(states.get(indexOfState), currentSymbol);
@@ -60,13 +60,14 @@ public class ExecuteService {
                 dynamicTape.replace(indexOfSymbol,
                         indexOfSymbol + 1,
                         String.valueOf(currentCommand.getNewSymbol()));
+
+
+
+            track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
             switch (currentCommand.getMove()) {
                 case "Л" -> indexOfSymbol--;
                 case "П" -> indexOfSymbol++;
             }
-
-            track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
-
             //Добавить проверки на зацикливание программы и невозможное состояние (из которого нельзя выйти)
             //Добавить выход из цикла (состояние остановки???)
             //если indexOfSymbol отрицательный или больше длины ленты, то currentSymbol = ""?

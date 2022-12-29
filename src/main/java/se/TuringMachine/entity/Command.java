@@ -2,9 +2,11 @@ package se.TuringMachine.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Command {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,14 @@ public class Command {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_symbol")
     private Symbol symbolEntity;
+
+    public Command(String move, Character newSymbol, int state, int nextState, Character symbol) {
+        this.move = move;
+        this.newSymbol = newSymbol;
+        this.state = state;
+        this.nextState = nextState;
+        this.symbol = symbol;
+    }
 
     @Override
     public String toString() {

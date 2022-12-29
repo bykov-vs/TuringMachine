@@ -217,8 +217,8 @@ export class SettingsComponent {
             (async () => {
                 for (const x of this.steps) {
                     element = document.getElementById('col-' + (x.col - 1) + '-row-' + (x.row - 1))
-                    tapeScope = document.getElementById('tape-element-scope-' + x.tapeHeadPosition)
-                    combobox = document.getElementById('tape-element-' + x.tapeHeadPosition)
+                    tapeScope = document.getElementById('tape-element-scope-' + (x.tapeHeadPosition + 1))
+                    combobox = document.getElementById('tape-element-' + (x.tapeHeadPosition + 1))
                     if (element && tapeScope && combobox) {
                         element.setAttribute('class', 'selected')
                         tapeScope.setAttribute('class', 'tape-element-scope selected')

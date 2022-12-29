@@ -38,7 +38,7 @@ public class MainService {
             }
 
             entity.setNumberOfStates(dto.getNumberOfStates());
-            entity.setIsBase(false);
+            entity.setBase(dto.isBase());
             entity.setAlphabetEntity(alphabetService.findById(alphabetId));
             entity = algorithmService.saveAlgorithm(entity);
 

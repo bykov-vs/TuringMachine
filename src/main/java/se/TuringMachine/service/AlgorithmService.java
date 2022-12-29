@@ -35,20 +35,20 @@ public class AlgorithmService implements DefaultService<Algorithm>{
         return repository.findAll();
     }
 
-    public List<AlgorithmDTO> getAll(Boolean isBase) {
-        System.out.println(isBase);
+    public List<AlgorithmDTO> getAll(boolean isBase) {
+        System.out.println("isBase = " + isBase);
         System.out.println(repository.findAll().size());
         List<AlgorithmDTO> dtos = new ArrayList<>();
         List<Algorithm> entities = repository.findAllAlgorithms(isBase);
         for (Algorithm entity: entities) {
-            System.out.println(entity.getIsBase());
-            System.out.println(entity.getIsBase() == isBase);
+            System.out.println(entity.isBase());
+            System.out.println(entity.isBase() == isBase);
 
             AlgorithmDTO dto = new AlgorithmDTO();
             dto.setId(entity.getId());
             dto.setName(entity.getName());
             dto.setNumberOfStates(entity.getNumberOfStates());
-            dto.setIsBase(entity.getIsBase());
+            dto.setBase(entity.isBase());
 
             List<Character> symbols = new ArrayList<>();
             String alphabet = entity.getAlphabetEntity().getName();

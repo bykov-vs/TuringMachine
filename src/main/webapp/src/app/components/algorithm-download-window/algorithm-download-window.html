@@ -1,8 +1,8 @@
 <div class="dialog-container">
-  <h1>Выберите алгоритм</h1>
-  <div *ngFor="let m of data.algorithms; index as i">
-    <a (click)="downloadAlgorithm(m)">{{m.name}}</a>
-    <button *ngIf="isBase == false" class="delete-button" (click)="deleteAlgorithm(m.id)">Удалить</button>
-  </div>
+    <h1>Выберите алгоритм</h1>
+    <div *ngFor="let m of data.algorithms; index as i">
+        <a (click)="downloadAlgorithm(m)">{{m.name}}</a>
+        <button *ngIf="isBase == false" class="delete-button" (click)="deleteAlgorithm(m.id)">Удалить</button>
+    </div>
 
 </div>

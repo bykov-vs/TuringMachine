@@ -14,7 +14,7 @@ public class AlgorithmDTO {
     private List<Character> alphabet;
     private List<Command> commands;
     private Long numberOfStates;
-    private Boolean isBase;
+    private boolean isBase;
 
     private String tape;
     private int tapeHeadPosition;

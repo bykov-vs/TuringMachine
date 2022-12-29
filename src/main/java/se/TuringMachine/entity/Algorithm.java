@@ -15,7 +15,7 @@ public class Algorithm {
     private String name;
 
     @Column(name = "is_base")
-    private Boolean isBase;
+    private boolean isBase;
 
     @Column(name = "number_of_states")
     private Long numberOfStates;

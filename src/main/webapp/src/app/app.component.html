@@ -19,7 +19,7 @@
               </div>
           </div>
           <app-alphabet [symbols]="symbols" (alphabetChangeEvent)="alphabetChanges($event)"></app-alphabet>
-          <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" (alphabetSetEvent)="setAlphabet($event)"  [symbols]="symbols" [symbolsLength]="symbols.length"></app-alg-table>
+          <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" (alphabetSetEvent)="alphabetChanges($event)"  [symbols]="symbols" [symbolsLength]="symbols.length"></app-alg-table>
       </div>
       <app-settings [symbols] = "symbols" [cellValues]="cellValues" [tapeHeadPosition]="tapeHeadPosition" [numberOfStates]="numberOfStates" class="settings" (tapeLengthChange)="onTapeLengthChange($event)"></app-settings>
   </div>

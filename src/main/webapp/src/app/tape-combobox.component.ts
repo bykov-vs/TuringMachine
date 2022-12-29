@@ -17,7 +17,12 @@ import {HttpService} from "./HttpService";
 export class TapeComboboxComponent {
     label: any;
     id: any;
-    symbols : String[] = []
+
+    @Input() symbols : String[] = []
+
+    setSymbols(symbols : any) {
+        this.symbols = symbols
+    }
     constructor() {
 
     }
