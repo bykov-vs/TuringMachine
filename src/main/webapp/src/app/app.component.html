@@ -18,6 +18,8 @@
                   <button (click)="moveRightTapeHead()" id="tape-button-right">→</button>
               </div>
           </div>
+          <button class="common-button" style="margin-bottom: 20px;" (click)="clear()">Очистить</button>
+
           <app-alphabet [symbols]="symbols" (alphabetChangeEvent)="alphabetChanges($event)"></app-alphabet>
           <app-alg-table (newNumberOfStates)="setNumberOfStates($event)"  (newItemEvent)="setCommands($event)" (alphabetSetEvent)="alphabetChanges($event)"  [symbols]="symbols" [symbolsLength]="symbols.length"></app-alg-table>
       </div>

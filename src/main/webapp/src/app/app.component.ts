@@ -358,7 +358,10 @@ export class AppComponent implements OnInit {
             }
         })();
     }
-
+    clear(){
+        this.onTapeLengthChange(0)
+        this.onTapeLengthChange(16)
+    }
     alphabetChanges(alphabet : any){
         this.symbols = alphabet
         // @ts-ignore
