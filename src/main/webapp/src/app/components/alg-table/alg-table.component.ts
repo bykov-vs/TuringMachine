@@ -86,6 +86,7 @@ export class AlgTableComponent implements OnInit, OnChanges {
     }
 
     deleteColumn(i: number) {
+        console.log("del " + i)
         if (this.states.length > 2) {
             if (i > -1) {
                 this.states.splice(i, 1);
@@ -141,14 +142,29 @@ export class AlgTableComponent implements OnInit, OnChanges {
         this.command += event.target.value
         console.log(this.symbols)
         if (this.type == 0) {
-            this.newSymbol = event.target.value
+            if (event.target.value != undefined) {
+                this.newSymbol = event.target.value
+            } else {
+                this.newSymbol = this.symbols[0]
+            }
+
         }
         if (this.type == 1) {
-            this.move = event.target.value
+            if (event.target.value != undefined){
+                this.move = event.target.value
+            } else {
+                this.move = "П"
+            }
+
         }
         if (this.type == 2) {
             this.type = 0
-            this.nextState = parseInt(event.target.value)
+            if (event.target.value != undefined){
+                this.nextState = parseInt(event.target.value)
+            } else {
+                this.nextState = 1
+            }
+
             this.state = this.states[this.cellCol]
             this.symbol = this.symbols[this.cellRow]
 
@@ -187,15 +203,20 @@ export class AlgTableComponent implements OnInit, OnChanges {
     deleteCellsValue() {
         this.commands = new Array(0);
 
+        this.changeCells()
+        console.log("stas= "+ this.states)
         this.cells = new Array(this.states.length)
         for (let i = 0; i < this.cells.length; i++) {
             this.cells[i] = new Array(this.symbols.length).fill(false)
         }
+        // (async () => {
+            this.cellsValues = new Array(this.states.length)
+            for (let i = 0; i < this.cellsValues.length; i++) {
+                // await this.sleep(1)
+                this.cellsValues[i] = new Array(this.symbols.length).fill(null)
+            }
+        // })()
 
-        this.cellsValues = new Array(this.states.length)
-        for (let i = 0; i < this.cellsValues.length; i++) {
-            this.cellsValues[i] = new Array(this.symbols.length).fill(null)
-        }
     }
 
     createNewAlgorithm() {

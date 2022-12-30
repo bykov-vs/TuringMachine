@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Output, Input} from '@angular/core';
 import {Command} from '../alg-table/command';
 import {HttpService} from "../../HttpService";
+import {AlphabetDownloadWindowComponent} from "../alphabet-download-window/alphabet-download-window.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {TraceShowComponent} from "../trace-show/trace-show.component";
 
 @Component({
     selector: 'app-settings',
@@ -14,8 +17,8 @@ export class SettingsComponent {
     @Output() tapeLengthChange = new EventEmitter<number>()
     tapeElements: Array<string> = [];
     trace: any
-    operand1: Number = 0
-    operand2: Number = 0
+    operand1: Number = 1
+    operand2: Number = 1
     mode: String = "standard"
     tapeLength: number = 16
     commands: Command[] = []
@@ -26,7 +29,15 @@ export class SettingsComponent {
     speedRange: number = 10
     stepNumber: number = 0
 
-    constructor(private httpService: HttpService) {
+    constructor(private httpService: HttpService, public dialog: MatDialog,) {
+    }
+
+    ngAfterViewInit() {
+        (async () => {
+            await this.sleep(100)
+            this.onOperandChange()
+        })()
+
     }
 
     createRequest(): any {
@@ -87,21 +98,11 @@ export class SettingsComponent {
                     console.log(data)
                     let str = ""
                     for (let obj of data.trackSteps) {
-                        str += obj.tapeHeadPosition + " - " + obj.newSymbol + "\n"
+                        str += obj.tapeHeadPosition + " - " + obj.newSymbol + ";\n"
                     }
-
-                    let file = new Blob([str], {type: '.txt'});
-
-                    let a = document.createElement("a"),
-                        url = URL.createObjectURL(file);
-                    a.href = url;
-                    a.download = "Трасса.txt";
-                    document.body.appendChild(a);
-                    a.click();
-                    setTimeout(function() {
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }, 0);
+                    const dialogRef = this.dialog.open(TraceShowComponent, {
+                        data: str,
+                    });
                 } else {
                     alert(data.message)
                 }
@@ -193,7 +194,7 @@ export class SettingsComponent {
                 tapeElement.value = this.symbols[1]
             } else {
                 // @ts-ignore
-                tapeElement.value = '_'
+                tapeElement.value = this.symbols[0]
             }
             i++
         }

@@ -19,6 +19,7 @@ import {HttpService} from "./HttpService";
 import {
   AlgorithmDownloadWindowComponent
 } from "./components/algorithm-download-window/algorithm-download-window.component";
+import {TraceShowComponent} from "./components/trace-show/trace-show.component";
 /*
 const routes: Routes = [
   { path: 'about-system', component: AboutSystemComponent},
@@ -34,7 +35,8 @@ const routes: Routes = [
     SettingsComponent,
     AboutDevsDialogComponent,
     AlphabetDownloadWindowComponent,
-    AlgorithmDownloadWindowComponent
+    AlgorithmDownloadWindowComponent,
+    TraceShowComponent
   ],
   imports: [HttpClientModule,
     BrowserModule,
@@ -42,6 +44,9 @@ const routes: Routes = [
     MatDialogModule,
     MatButtonModule,
     //RouterModule.forRoot(routes)
+  ], exports: [
+  MatDialogModule,
+  MatButtonModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

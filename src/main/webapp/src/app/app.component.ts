@@ -408,7 +408,7 @@ export class AppComponent implements OnInit {
                 setTimeout(()=> {
                     this.createTape();
                     resolve();
-                }, 200);
+                }, 10);
             }).then(() => {
                 this.initTapeHeadPosition()
             });
