@@ -7,6 +7,7 @@ import se.TuringMachine.dto.ResultTapeDTO;
 import se.TuringMachine.dto.TrackStep;
 import se.TuringMachine.entity.Command;
 import se.TuringMachine.exception.InvalidStateException;
+import se.TuringMachine.exception.MaxIterationException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,6 +48,9 @@ public class ExecuteService {
             if (indexOfState >= algorithm.getNumberOfStates()){
                 track.add(new TrackStep(prevState+1, getRowByCharacter(algorithm, currentSymbol), indexOfSymbol, currentCommand.getNewSymbol()));
                 break;
+            }
+            if (iters == MAX_ITERS){
+                throw new MaxIterationException();
             }
             if (currentCommand == null){
                 System.out.println("state : " + indexOfState);
