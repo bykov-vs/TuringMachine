@@ -73,6 +73,7 @@ public class ExecuteService {
             //если indexOfSymbol отрицательный или больше длины ленты, то currentSymbol = ""?
             //ДОБАВИТЬ ТРАССИРОВКУ (????)
         }
+
         ResultTapeDTO result = new ResultTapeDTO();
         result.setTrackSteps(track);
         result.setTapeLength(dynamicTape.length());

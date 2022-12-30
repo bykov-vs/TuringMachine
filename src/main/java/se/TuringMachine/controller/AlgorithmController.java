@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import se.TuringMachine.dto.AlgorithmDTO;
 import se.TuringMachine.dto.ResultTapeDTO;
 import se.TuringMachine.entity.Algorithm;
+import se.TuringMachine.exception.InvalidStateException;
+import se.TuringMachine.exception.MaxIterationException;
 import se.TuringMachine.response.AlgorithmResponse;
 import se.TuringMachine.response.BasicResponse;
 import se.TuringMachine.service.AlgorithmService;
@@ -59,8 +61,12 @@ public class AlgorithmController {
             resultTapeDTO.setSuccessful(true);
             resultTapeDTO.setMessage("Алгоритм успешно выполнен");
             return resultTapeDTO;
-        } catch (Exception e) {
+        } catch (InvalidStateException e) {
             return new ResultTapeDTO(false, "Алгоритм привёл в пустое состояние");
+        }catch (MaxIterationException e){
+            return new ResultTapeDTO(false, "Зацикливание алгоритма");
+        }catch (Exception e){
+            return new ResultTapeDTO(false, "Что-то пошло не так");
         }
 
     }

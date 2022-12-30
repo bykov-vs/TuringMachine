@@ -72,6 +72,7 @@ export class SettingsComponent {
     }
 
     execute() {
+        //this.onOperandChange()
         let tapeScope = document.getElementById('tape-element-scope-' + this.tapeHeadPosition)
         // @ts-ignore
         tapeScope.setAttribute('class', 'tape-element-scope')
@@ -173,14 +174,14 @@ export class SettingsComponent {
 
     onOperandChange() {
         let tapeElement, i = 1;
-        if (this.operand1 < 0){
-            this.operand1 = 0
+        if (this.operand1 < 1){
+            this.operand1 = 1
         }
         if (this.operand1 > 10){
             this.operand1 = 10
         }
-        if (this.operand2 < 0){
-            this.operand2 = 0
+        if (this.operand2 < 1){
+            this.operand2 = 1
         }
         if (this.operand2 > 10){
             this.operand2 = 10
