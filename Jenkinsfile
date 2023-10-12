@@ -8,8 +8,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-		            sh 'mvn --version'
-                sh 'mvn clean test -U -f tests/pom.xml'
+		sh 'mvn --version'
+                sh 'mvn clean test
             }
         }
     }
